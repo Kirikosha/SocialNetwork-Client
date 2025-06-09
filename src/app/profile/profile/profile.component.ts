@@ -4,6 +4,7 @@ import { MemberModel } from '../../_models/memberModel';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../../_services/account.service';
 import { ProfileTabsComponent } from "../profile-tabs/profile-tabs.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +16,7 @@ import { ProfileTabsComponent } from "../profile-tabs/profile-tabs.component";
 export class ProfileComponent implements OnInit {
   private memberService = inject(MemberService);
   private toastr = inject(ToastrService);
+  private router = inject(Router);
   memberModel!: MemberModel;
 
   ngOnInit(): void {
@@ -39,5 +41,8 @@ export class ProfileComponent implements OnInit {
       month: 'long', 
       year: 'numeric' 
     });
+  }
+  goToUpdate() {
+    this.router.navigate(['/edit-profile']);
   }
 }

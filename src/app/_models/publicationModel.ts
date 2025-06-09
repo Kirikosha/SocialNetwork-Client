@@ -9,4 +9,6 @@ export interface PublicationModel{
     remindAt?: Date;
     images?: ImageModel[];
     author: MemberModel;
+    likesAmount: number;
+    isLikedByCurrentUser: boolean;
 }

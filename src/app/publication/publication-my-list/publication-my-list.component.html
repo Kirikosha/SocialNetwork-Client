@@ -19,7 +19,10 @@
   <div class="publications-list">
     <app-publication-card 
       *ngFor="let publication of publications"
-      [publication]="publication">
+      [publication]="publication"
+      (editPublication)="onUpdatePublication($event)"
+      (deletePublication)="onDeletePublication($event)"
+      (likePublication)="onLikePublication($event)">
     </app-publication-card>
   </div>
 </div>

@@ -40,6 +40,16 @@ export class AccountService {
     )
   }
 
+  updateProfile(model: AccountModel) {
+    const user = this.currentUser();
+    if (user) {
+      user.uniqueNameIdentifier = model.uniqueNameIdentifier;
+      user.username = model.username;
+      this.currentUser.set(user);
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }
+
   logout(){
     localStorage.removeItem('user');
     this.currentUser.set(null);

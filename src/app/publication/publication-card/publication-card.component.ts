@@ -1,19 +1,29 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { PublicationService } from '../../_services/publication.service';
 import { PublicationModel } from '../../_models/publicationModel';
 import { CommonModule, DatePipe, NgClass } from '@angular/common';
+import { UpdatePublicationModel } from '../../_models/updatePublicationModel';
+import { AccountService } from '../../_services/account.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-publication-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './publication-card.component.html',
   styleUrl: './publication-card.component.css',
   providers: [DatePipe]
 })
 export class PublicationCardComponent {
+  accountService = inject(AccountService);
   @Input() publication!: PublicationModel;
+  @Output() editPublication = new EventEmitter<UpdatePublicationModel>();
+  @Output() deletePublication = new EventEmitter<number>();
+  @Output() likePublication = new EventEmitter<number>();
 
+  isEditing = false;
+  editedContent = '';
+  editedRemindAt: string | null = null;
   constructor(private datePipe: DatePipe) {}
 
   formatDate(date: Date): string {
@@ -29,4 +39,46 @@ export class PublicationCardComponent {
       default: return 'single-image';
     }
   }
+
+  startEditing(){
+    this.isEditing = true;
+    this.editedContent = this.publication.content || '';
+    this.editedRemindAt = this.publication.remindAt ? this.datePipe.transform(this.publication.remindAt, 'yyyy-MM-ddTHH:mm') : null;
+  }
+
+  cancelEditing(){
+    this.isEditing = false;
+  }
+
+  getCurrentDateTime(): string {
+    const now = new Date();
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  }
+  formatDateTime(date: Date): string {
+    return this.datePipe.transform(date, 'MMM d, y, h:mm a') || '';
+  }
+  saveChanges() {
+    const updatedPublication: UpdatePublicationModel = {
+      id: this.publication.id,
+      content: this.editedContent,
+      remindAt: this.editedRemindAt ? new Date(this.editedRemindAt) : undefined
+    };
+
+    this.editPublication.emit(updatedPublication);
+    this.isEditing = false;
+  }
+
+  delete() {
+    if (confirm('Are you sure you want to delete this publication?')) {
+      this.deletePublication.emit(this.publication.id);
+    }
+  }
+
+  likePublicationMethod() {
+    if (this.accountService.currentUser()){
+      this.likePublication.emit(this.publication.id);
+    }
+  }
+
 }

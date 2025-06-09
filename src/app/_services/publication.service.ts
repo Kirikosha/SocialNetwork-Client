@@ -3,6 +3,8 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CreatePublicationModel } from '../_models/createPublicationModel';
 import { PublicationModel } from '../_models/publicationModel';
+import { UpdatePublicationModel } from '../_models/updatePublicationModel';
+import { LikeModel } from '../_models/likeModel';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +36,18 @@ createPublication(publicationModel: CreatePublicationModel) {
 
 getPublications(uniqueNameIdentifier: string) {
   return this.http.get<PublicationModel[]>(this.baseUrl + '/publication/publication-of-' + uniqueNameIdentifier);
+}
+
+updatePublication(publicationModel: UpdatePublicationModel){
+  return this.http.put<PublicationModel>(this.baseUrl + '/publication/update-publication', publicationModel);
+}
+
+deletePublication(publicationId: number){
+  return this.http.delete(this.baseUrl + `/publication/${publicationId}`); 
+}
+
+likePublication(publicationId: number){
+  return this.http.get<LikeModel>(this.baseUrl + `/publication/like/${publicationId}`);
 }
   constructor() { }
 }

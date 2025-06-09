@@ -151,3 +151,63 @@
 .publication-content {
   width: 100%;
 }
+
+.edit-controls {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.edit-textarea {
+  width: 100%;
+  min-height: 100px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid #dee2e6;
+}
+
+.schedule-edit {
+  margin-bottom: 12px;
+}
+
+.schedule-edit label {
+  font-weight: 500;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.edit-buttons .btn {
+  padding: 4px 12px;
+  font-size: 0.9rem;
+}
+
+.updated-time {
+  color: #657786;
+  font-size: 0.9rem;
+}
+
+.updated-time i {
+  font-size: 0.8rem;
+  margin-right: 2px;
+}
+
+.scheduled-time {
+  color: #1da1f2;
+  font-size: 0.9rem;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.scheduled-time i {
+  font-size: 0.9rem;
+}

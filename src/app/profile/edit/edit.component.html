@@ -1,0 +1,86 @@
+<div class="edit-profile-container">
+  <h2 class="page-title">Edit Profile</h2>
+  
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="edit-profile-form">
+    <div class="profile-image-section">
+      <div class="profile-image-wrapper">
+        <img [src]="profileImagePreview || 'assets/user.png'" 
+             alt="Profile" 
+             class="profile-image">
+        <label for="profileImage" class="edit-image-button">
+          <i class="bi bi-camera-fill"></i>
+        </label>
+        <input id="profileImage" 
+               type="file" 
+               accept="image/*" 
+               (change)="onFileChange($event)" 
+               class="d-none">
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" 
+             id="username" 
+             formControlName="username"
+             class="form-control"
+             [ngClass]="{ 'is-invalid': username?.touched && username?.invalid }">
+      
+      <div *ngIf="username?.touched && username?.invalid" class="invalid-feedback">
+        <div *ngIf="username?.errors?.['required']">Username is required</div>
+        <div *ngIf="username?.errors?.['minlength']">
+          Username must be at least 3 characters
+        </div>
+        <div *ngIf="username?.errors?.['maxlength']">
+          Username cannot exceed 20 characters
+        </div>
+        <div *ngIf="username?.errors?.['pattern']">
+          Only letters, numbers and underscores allowed
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="uniqueNameIdentifier">Unique Identifier</label>
+      <div class="input-group">
+        <span class="input-group-text">&#64;</span>
+        <input type="text" 
+               id="uniqueNameIdentifier" 
+               formControlName="uniqueNameIdentifier"
+               class="form-control"
+               [ngClass]="{ 'is-invalid': uniqueNameIdentifier?.touched && uniqueNameIdentifier?.invalid }">
+      </div>
+      
+      <div *ngIf="uniqueNameIdentifier?.touched && uniqueNameIdentifier?.invalid" class="invalid-feedback">
+        <div *ngIf="uniqueNameIdentifier?.errors?.['required']">Identifier is required</div>
+        <div *ngIf="uniqueNameIdentifier?.errors?.['minlength']">
+          Identifier must be at least 3 characters
+        </div>
+        <div *ngIf="uniqueNameIdentifier?.errors?.['maxlength']">
+          Identifier cannot exceed 20 characters
+        </div>
+        <div *ngIf="uniqueNameIdentifier?.errors?.['pattern']">
+          Only letters, numbers and underscores allowed
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label>Member Since</label>
+      <input type="text" 
+            *ngIf="memberModel"
+             [value]="memberModel.joinedAt | date: 'MMMM d, y'" 
+             readonly
+             class="form-control">
+    </div>
+    
+    <div class="form-actions">
+      <button type="submit" 
+              class="btn btn-primary save-button"
+              [disabled]="editForm.invalid || isLoading">
+        <span *ngIf="!isLoading">Save Changes</span>
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm"></span>
+      </button>
+    </div>
+  </form>
+</div>
