@@ -1,1 +1,60 @@
-<p>comment-section works!</p>
+<div class="comment-section">
+  <h3 class="comment-section-title">Comments ({{comments.length}})</h3>
+  
+  <!-- Comment creation -->
+  <app-comment-create 
+    [publicationId]="publicationId" 
+    (commentCreated)="onCommentCreated($event)">
+  </app-comment-create>
+
+  <!-- Loading state -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="errorLoading && !isLoading" class="error-state">
+    Failed to load comments. <button (click)="loadComments()">Try again</button>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="comments.length === 0 && !isLoading && !errorLoading" class="empty-state">
+    No comments yet. Be the first to comment!
+  </div>
+
+  <!-- Comments list -->
+  <div class="comments-list">
+    <div *ngFor="let comment of comments" class="comment-card">
+      <div class="comment-header">
+        <div class="comment-author">
+            @if (comment.author.profileImage && comment.author.profileImage.imageUrl) {
+              <img [src]="comment.author.profileImage.imageUrl" 
+                   alt="Profile" 
+                   class="comment-author-image">
+            } @else {
+                <img src="assets/user.png" 
+                     alt="Profile" 
+                     class="comment-author-image">
+            }
+          <div class="comment-author-info">
+            <span class="comment-author-name">{{comment.author.username}}</span>
+            <span class="comment-author-handle">&#64;{{comment.author.uniqueNameIdentifier}}</span>
+          </div>
+        </div>
+        <div class="comment-actions">
+          <span class="comment-time">{{comment.creationDate | date: 'MMM d, y, h:mm a'}}</span>
+          <button *ngIf="isCommentOwner(comment.author.uniqueNameIdentifier)" 
+                  class="btn btn-link btn-sm delete-button"
+                  (click)="deleteComment(comment.id)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+      <div class="comment-content">
+        {{comment.content}}
+      </div>
+    </div>
+  </div>
+</div>

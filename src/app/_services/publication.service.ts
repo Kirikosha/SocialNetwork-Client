@@ -38,6 +38,10 @@ getPublications(uniqueNameIdentifier: string) {
   return this.http.get<PublicationModel[]>(this.baseUrl + '/publication/publication-of-' + uniqueNameIdentifier);
 }
 
+getPublicationById(publicationId: number){
+  return this.http.get<PublicationModel>(this.baseUrl + `/publication/${publicationId}`);
+}
+
 updatePublication(publicationModel: UpdatePublicationModel){
   return this.http.put<PublicationModel>(this.baseUrl + '/publication/update-publication', publicationModel);
 }

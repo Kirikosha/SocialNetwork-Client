@@ -1,7 +1,6 @@
 <div class="profile-container">
-  @if (memberModel) {
+  @if (memberModel && !isLoading) {
     <div class="profile-header">
-      <!-- Cover Photo (optional) -->
       <div class="cover-photo"></div>
       
       <!-- Profile Info Section -->
@@ -12,14 +11,29 @@
                  alt="Profile Picture" 
                  class="profile-pic rounded-circle">
           } @else {
-          <img [src]="'assets/user.png'" 
-               alt="Profile Picture" 
-               class="profile-pic rounded-circle">
+            <img [src]="'assets/user.png'" 
+                 alt="Profile Picture" 
+                 class="profile-pic rounded-circle">
           }
         </div>
         
         <div class="profile-actions">
-          <button class="btn btn-outline-success rounded-pill" (click)="goToUpdate()">Edit profile</button>
+          @if (isCurrentUserProfile) {
+            <button class="btn btn-outline-success rounded-pill" (click)="goToUpdate()">
+              Edit profile
+            </button>
+          } @else {
+            <button class="btn rounded-pill follow-button" 
+                    [class.btn-primary]="!isFollowing"
+                    [class.btn-outline-primary]="isFollowing"
+                    (click)="toggleFollow()">
+              @if (isFollowing) {
+                Following
+              } @else {
+                Follow
+              }
+            </button>
+          }
         </div>
         
         <div class="profile-details mt-4">
@@ -29,10 +43,12 @@
           
           <div class="profile-stats d-flex mt-3">
             <div class="me-4">
-              <span class="fw-bold">420</span> <span class="text-muted">Following</span>
+              <span class="fw-bold">{{followingCount}}</span> 
+              <span class="text-muted">Following</span>
             </div>
             <div>
-              <span class="fw-bold">1.2K</span> <span class="text-muted">Followers</span>
+              <span class="fw-bold">{{followersCount}}</span> 
+              <span class="text-muted">Followers</span>
             </div>
           </div>
         </div>

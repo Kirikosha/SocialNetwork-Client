@@ -59,7 +59,6 @@
   border-top: 1px solid #e6ecf0;
 }
 
-/* Twitter-like button styles */
 .btn-outline-dark {
   border-color: #536471;
   color: #0f1419;
@@ -70,7 +69,6 @@
   background-color: rgba(15, 20, 25, 0.1);
 }
 
-/* Responsive adjustments */
 @media (max-width: 576px) {
   .profile-pic {
     width: 100px;
@@ -84,4 +82,27 @@
   .cover-photo {
     height: 150px;
   }
+}
+
+.follow-button {
+  padding: 6px 16px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.profile-stats span {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.profile-stats span:hover {
+  color: #1da1f2;
+  text-decoration: underline;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
 }

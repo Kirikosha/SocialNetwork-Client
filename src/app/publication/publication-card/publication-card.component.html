@@ -1,4 +1,4 @@
-<div class="publication-card" *ngIf="publication">
+<div class="publication-card" *ngIf="publication" (click)="goToPublicationPage(publication.id)">
   <div class="publication-content">
     <div class="author-info">
       <div class="profile-pic-wrapper">

@@ -5,6 +5,7 @@ import { CommonModule, DatePipe, NgClass } from '@angular/common';
 import { UpdatePublicationModel } from '../../_models/updatePublicationModel';
 import { AccountService } from '../../_services/account.service';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-publication-card',
@@ -16,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class PublicationCardComponent {
   accountService = inject(AccountService);
+  private router = inject(Router);
   @Input() publication!: PublicationModel;
   @Output() editPublication = new EventEmitter<UpdatePublicationModel>();
   @Output() deletePublication = new EventEmitter<number>();
@@ -79,6 +81,10 @@ export class PublicationCardComponent {
     if (this.accountService.currentUser()){
       this.likePublication.emit(this.publication.id);
     }
+  }
+
+  goToPublicationPage(publicationId: number) {
+    this.router.navigate(['/publication', publicationId]);    
   }
 
 }

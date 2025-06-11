@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../../_services/account.service';
 import { ProfileTabsComponent } from "../profile-tabs/profile-tabs.component";
 import { Router } from '@angular/router';
+import { SubscriptionService } from '../../_services/subscription.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,8 +18,15 @@ export class ProfileComponent implements OnInit {
   private memberService = inject(MemberService);
   private toastr = inject(ToastrService);
   private router = inject(Router);
-  memberModel!: MemberModel;
+  private accountService = inject(AccountService);
+  private subscriptionService = inject(SubscriptionService);
 
+  memberModel!: MemberModel;
+  isCurrentUserProfile = false;
+  isFollowing = false;
+  followingCount = 0;
+  followersCount = 0;
+  isLoading = true;
   ngOnInit(): void {
     this.loadMember();
   }
@@ -27,10 +35,14 @@ export class ProfileComponent implements OnInit {
     this.memberService.getMyProfile().subscribe({
       next: (member) => {
         this.memberModel = member;
-        console.log(this.memberModel);
+        this.checkIfCurrentUser();
+        this.loadSubscriptionCounts();
+        this.checkIfFollowing();
+        this.isLoading = false;
       },
       error: (err) => {
         this.toastr.error(err.error);
+        this.isLoading = false;
       }
     })
   }
@@ -44,5 +56,69 @@ export class ProfileComponent implements OnInit {
   }
   goToUpdate() {
     this.router.navigate(['/edit-profile']);
+  }
+
+  checkIfCurrentUser() {
+    const currentUser = this.accountService.currentUser();
+    this.isCurrentUserProfile = currentUser?.uniqueNameIdentifier === this.memberModel.uniqueNameIdentifier;
+  }
+
+  loadSubscriptionCounts() {
+    this.subscriptionService.getSubscriptionCount().subscribe({
+      next: (count) => {this.followingCount = count; console.log("Following count: ", count)},
+      error: () => this.followingCount = 0
+    });
+
+    this.subscriptionService.getFollowerCount().subscribe({
+      next: (count) => this.followersCount = count,
+      error: () => this.followersCount = 0
+    })
+  } 
+
+  checkIfFollowing() {
+    if (this.isCurrentUserProfile)  return;
+
+    this.subscriptionService.isFollowing(this.memberModel.uniqueNameIdentifier).subscribe({
+      next: (isFollowing) => {
+        this.isFollowing = isFollowing;
+      },
+      error: (err) => {
+        this.toastr.error("Failed to check following status: " + err.error);
+      }
+    });
+  }
+
+  toggleFollow() {
+    if (this.isCurrentUserProfile) return;
+    if (this.isFollowing){
+      this.unfollowUser();
+    }
+    else{
+      this.followUser();
+    }
+  }
+
+  followUser() {
+    this.subscriptionService.subscribe(this.memberModel.uniqueNameIdentifier).subscribe({
+      next: () => {
+        this.isFollowing = true;
+        this.followersCount++;
+      },
+      error: (err) => {
+        this.toastr.error("Failed to follow user:" + err.error);
+      }
+    })
+  }
+
+  unfollowUser(){
+    this.subscriptionService.unsubscribe(this.memberModel.uniqueNameIdentifier).subscribe({
+      next: () => {
+        this.isFollowing = false;
+        this.followersCount--;
+      },
+      error: (err) => {
+        this.toastr.error("Failed to unfollow user: " + err.error);
+      }
+    })
   }
 }
