@@ -10,32 +10,39 @@ export class SubscriptionService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
 
-  getSubscriptionCount() {
-    return this.http.get<number>(this.baseUrl + '/subscription/subscriptions-count');
+  getSubscriptionCount(uniqueNameIdentifier: string) {
+    return this.http.get<number>(this.baseUrl + '/subscription/subscriptions-count', { params: { uniqueNameIdentifier } });
   }
 
-  getFollowerCount() {
-    return this.http.get<number>(this.baseUrl + '/subscription/followers-count');
+  getFollowerCount(uniqueNameIdentifier: string) {
+    return this.http.get<number>(this.baseUrl + '/subscription/followers-count', { params: { uniqueNameIdentifier } });
   }
 
-  getSubscriptions(){
-    return this.http.get<MemberModel[]>(this.baseUrl + '/subscription/subscriptions');
+  getSubscriptions(uniqueNameIdentifier: string) {
+    return this.http.get<MemberModel[]>(this.baseUrl + '/subscription/subscriptions', { params: { uniqueNameIdentifier } });
   }
 
-  getFollowers(){
-    return this.http.get<MemberModel[]>(this.baseUrl + '/subscription/followers');
+  getFollowers(uniqueNameIdentifier: string) {
+    return this.http.get<MemberModel[]>(this.baseUrl + '/subscription/followers', { params: { uniqueNameIdentifier } });
   }
 
   subscribe(uniqueNameIdentifier: string){
-    return this.http.post(this.baseUrl + '/subscription/subscribe', uniqueNameIdentifier);
+    return this.http.post(this.baseUrl + '/subscription/subscribe', 
+  JSON.stringify(uniqueNameIdentifier), {
+    headers: { 'Content-Type': 'application/json' }
+  });
+ 
   }
 
   unsubscribe(uniqueNameIdentifier: string){
-    return this.http.post(this.baseUrl + '/subscription/unsubscribe', uniqueNameIdentifier);
+    return this.http.post(this.baseUrl + '/subscription/unsubscribe',
+      JSON.stringify(uniqueNameIdentifier), {
+        headers: { 'Content-Type': 'application/json' }
+      });
   }
 
   isFollowing(uniqueNameIdentifier: string) {
-    return this.http.post<boolean>(this.baseUrl + '/subscription/is-following', uniqueNameIdentifier);
+    return this.http.get<boolean>(this.baseUrl + '/subscription/is-following', { params: { uniqueNameIdentifier } });
   }
   constructor() { }
 }

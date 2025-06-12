@@ -4,7 +4,7 @@ import { MemberModel } from '../../_models/memberModel';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../../_services/account.service';
 import { ProfileTabsComponent } from "../profile-tabs/profile-tabs.component";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SubscriptionService } from '../../_services/subscription.service';
 
 @Component({
@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit {
   private router = inject(Router);
   private accountService = inject(AccountService);
   private subscriptionService = inject(SubscriptionService);
+  private route = inject(ActivatedRoute);
 
   memberModel!: MemberModel;
   isCurrentUserProfile = false;
@@ -27,8 +28,16 @@ export class ProfileComponent implements OnInit {
   followingCount = 0;
   followersCount = 0;
   isLoading = true;
+
   ngOnInit(): void {
-    this.loadMember();
+    this.route.params.subscribe(params => {
+      const uniqueNameIdentifier = params['uniqueNameIdentifier'];
+      if (uniqueNameIdentifier) {
+        this.loadOtherMember(uniqueNameIdentifier);
+      } else {
+        this.loadMember();
+      }
+    });
   }
   
   loadMember(){
@@ -45,6 +54,27 @@ export class ProfileComponent implements OnInit {
         this.isLoading = false;
       }
     })
+  }
+
+    loadOtherMember(uniqueNameIdentifier: string): void {
+    this.memberService.getOtherProfile(uniqueNameIdentifier).subscribe({
+      next: (member) => {
+        this.handleMemberData(member);
+      },
+      error: (err) => {
+        this.toastr.error(err.error);
+        this.isLoading = false;
+        this.router.navigate(['/']); // Redirect if user not found
+      }
+    });
+  }
+  
+  private handleMemberData(member: MemberModel): void {
+    this.memberModel = member;
+    this.checkIfCurrentUser();
+    this.loadSubscriptionCounts();
+    this.checkIfFollowing();
+    this.isLoading = false;
   }
 
     formatDate(dateString: string): string {
@@ -64,12 +94,12 @@ export class ProfileComponent implements OnInit {
   }
 
   loadSubscriptionCounts() {
-    this.subscriptionService.getSubscriptionCount().subscribe({
+    this.subscriptionService.getSubscriptionCount(this.memberModel.uniqueNameIdentifier).subscribe({
       next: (count) => {this.followingCount = count; console.log("Following count: ", count)},
       error: () => this.followingCount = 0
     });
 
-    this.subscriptionService.getFollowerCount().subscribe({
+    this.subscriptionService.getFollowerCount(this.memberModel.uniqueNameIdentifier).subscribe({
       next: (count) => this.followersCount = count,
       error: () => this.followersCount = 0
     })

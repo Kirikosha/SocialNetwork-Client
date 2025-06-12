@@ -20,6 +20,14 @@ export class MemberService {
     return this.http.get<MemberModel>(this.baseUrl + '/member/my-profile');
   }
 
+  getOtherProfile(uniqueNameIdentifier: string){
+    return this.http.get<MemberModel>(this.baseUrl + `/member/other-user-profile`, { params: { uniqueNameIdentifier } });
+  }
+
+  searchForUser(searchQuery: string){
+    return this.http.get<MemberModel[]>(this.baseUrl + '/member/user-search', { params: { searchQuery } });
+  }
+
   updateMember(model: UpdateMemberModel){
   const formData = new FormData();
   formData.append('Id', model.id.toString());

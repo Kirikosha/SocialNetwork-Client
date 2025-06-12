@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AccountModel } from '../_models/accountModel';
 import { LoginModel } from '../_models/loginModel';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { RegisterModel } from '../_models/registerModel';
 import { JsonPipe } from '@angular/common';
 import { isTokenExpired } from '../_utilities/jwtDecode';
@@ -28,17 +28,17 @@ export class AccountService {
       })
     )
   }
-
-  register(model: RegisterModel) {
-    return this.http.post<AccountModel>(this.baseUrl + '/account/register', model).pipe(
-      map(user => {
-        if (user){
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUser.set(user);
-        }
-      })
-    )
-  }
+register(model: FormData) {
+  return this.http.post<AccountModel>(this.baseUrl + '/account/register', model).pipe(
+    map(user => {
+      if (user) {
+        localStorage.setItem('user', JSON.stringify(user));
+        this.currentUser.set(user);
+      }
+      return user;
+    })
+  );
+}
 
   updateProfile(model: AccountModel) {
     const user = this.currentUser();
