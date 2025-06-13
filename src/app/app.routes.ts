@@ -9,7 +9,6 @@ import { SearchPageComponent } from './search/search-page/search-page.component'
 export const routes: Routes = [
     {path: 'login', component:LoginComponent},
     {path: 'register', component: RegisterComponent},
-    {path: 'myProfile', component: ProfileComponent},
     {path: 'profile/:uniqueNameIdentifier', component: ProfileComponent},
     {path: 'edit-profile', component: EditComponent},
     {path: 'publication/:id', component: PublicationPageComponent},

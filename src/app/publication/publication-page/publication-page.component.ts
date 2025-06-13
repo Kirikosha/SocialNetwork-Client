@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PublicationModel } from '../../_models/publicationModel';
 import { PublicationService } from '../../_services/publication.service';
@@ -16,6 +16,7 @@ import { CommentSectionComponent } from "../comment-section/comment-section.comp
 export class PublicationPageComponent {
   private publicationService = inject(PublicationService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private toastr = inject(ToastrService);
   
   publication?: PublicationModel;
@@ -68,5 +69,9 @@ export class PublicationPageComponent {
       }
     });
   }
+  goBack() {
+    this.router.navigate([`/profile/${this.publication!.author.uniqueNameIdentifier}`])    
+  }
+
 
 }

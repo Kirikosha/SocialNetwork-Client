@@ -33,4 +33,8 @@ export class NavComponent {
     this.accountService.logout();
     this.router.navigateByUrl('/');
   }
+
+  goToProfile() {
+    this.router.navigateByUrl(`/profile/${this.accountService.currentUser()?.uniqueNameIdentifier}`);
+  }
 }

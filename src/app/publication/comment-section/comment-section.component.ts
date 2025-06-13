@@ -6,6 +6,7 @@ import { CommentCreateComponent } from "../comment-create/comment-create.compone
 import { CreateCommentModel } from '../../_models/createCommentModel';
 import { AccountService } from '../../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
+import { PublicationModel } from '../../_models/publicationModel';
 
 @Component({
   selector: 'app-comment-section',
@@ -16,17 +17,19 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CommentSectionComponent implements OnInit {
   @Input() publicationId!: number;
+  @Input() uniqueNameIdentifier!: string;
   private commentService = inject(CommentService);
-  private accountService = inject(AccountService);
+  accountService = inject(AccountService);
   private toastr = inject(ToastrService); 
-  
   currentUniqueName?: string;
   comments: CommentModel[] = [];
   isLoading = true;
   errorLoading = false;
+  isOwner = false;
 
   ngOnInit(): void {
     this.currentUniqueName = this.accountService.currentUser()?.uniqueNameIdentifier;
+    this.isOwner = this.currentUniqueName === this.uniqueNameIdentifier;
     this.loadComments();
   }
 
@@ -44,6 +47,10 @@ export class CommentSectionComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  loadPublication(): void {
+
   }
 
   onCommentCreated(comment: CreateCommentModel): void {

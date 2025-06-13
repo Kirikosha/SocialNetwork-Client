@@ -1,6 +1,6 @@
 <div class="publication-detail-container">
   <!-- Back button -->
-  <button class="back-button" routerLink="/">
+  <button class="back-button" (click)="goBack()">
     <i class="bi bi-arrow-left"></i> Back
   </button>
 
@@ -74,5 +74,5 @@
       </button>
     </div>
   </div>
-  <app-comment-section [publicationId]="publication!.id"></app-comment-section>
+  <app-comment-section [publicationId]="publication!.id" [uniqueNameIdentifier]="publication!.author.uniqueNameIdentifier"></app-comment-section>
 </div>

@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { PublicationCardComponent } from "../publication-card/publication-card.component";
 import { UpdatePublicationModel } from '../../_models/updatePublicationModel';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-publication-my-list',
@@ -15,18 +16,32 @@ import { UpdatePublicationModel } from '../../_models/updatePublicationModel';
   styleUrl: './publication-my-list.component.css'
 })
 export class PublicationMyListComponent implements OnInit{
+  private route = inject(ActivatedRoute);
   private publicationService = inject(PublicationService);
   private accountService = inject(AccountService);
   private toastr = inject(ToastrService);
+  
   publications: PublicationModel[] = [];
   isLoading = true;
-  isLoadingMore = false;
-  currentPage = 1;
-  pageSize = 10;
-  hasMorePublications = true;
+  isCurrentUserProfile = false;
 
   ngOnInit(): void {
-    this.publicationService.getPublications(this.accountService.currentUser()?.uniqueNameIdentifier!).subscribe({
+    this.route.params.subscribe(params => {
+      const uniqueNameIdentifier = params['uniqueNameIdentifier'];
+      this.checkIfCurrentUser(uniqueNameIdentifier);
+      this.loadPublications(uniqueNameIdentifier);
+    });
+  }
+
+  private checkIfCurrentUser(uniqueNameIdentifier: string): void {
+    const currentUser = this.accountService.currentUser();
+    this.isCurrentUserProfile = currentUser?.uniqueNameIdentifier === uniqueNameIdentifier;
+  }
+
+  private loadPublications(uniqueNameIdentifier: string): void {
+    console.log(`Loading publications for user: ${uniqueNameIdentifier}`);
+    this.isLoading = true;
+    this.publicationService.getPublications(uniqueNameIdentifier).subscribe({
       next: (publications) => {
         this.publications = publications;
         this.isLoading = false;
@@ -35,27 +50,27 @@ export class PublicationMyListComponent implements OnInit{
         this.toastr.error('Failed to load publications', error.message);
         this.isLoading = false;
       }
-    })
+    });
   }
 
-  onUpdatePublication(publication: UpdatePublicationModel) {
+  onUpdatePublication(publication: UpdatePublicationModel): void {
     this.publicationService.updatePublication(publication).subscribe({
       next: (updatedPublication) => {
         const index = this.publications.findIndex(p => p.id === updatedPublication.id);
         if (index !== -1) {
           this.publications[index] = updatedPublication;
           this.toastr.success('Publication updated successfully');
-        } else {
-          this.toastr.error('Publication not found');
         }
       },
       error: (error) => {
         this.toastr.error('Failed to update publication', error.message);
       }
-    })
+    });
   }
 
-  onDeletePublication(publicationId: number){
+  onDeletePublication(publicationId: number): void {
+    if (!confirm('Are you sure you want to delete this publication?')) return;
+    
     this.publicationService.deletePublication(publicationId).subscribe({
       next: () => {
         this.publications = this.publications.filter(p => p.id !== publicationId);
@@ -64,10 +79,10 @@ export class PublicationMyListComponent implements OnInit{
       error: (error) => {
         this.toastr.error('Failed to delete publication', error.message);
       }
-    })
+    });
   }
 
-  onLikePublication(publicationId: number){
+  onLikePublication(publicationId: number): void {
     this.publicationService.likePublication(publicationId).subscribe({
       next: (likeResponse) => {
         const publication = this.publications.find(p => p.id === publicationId);
@@ -79,6 +94,6 @@ export class PublicationMyListComponent implements OnInit{
       error: (error) => {
         this.toastr.error('Failed to like publication', error.message);
       }
-    })
+    });
   }
 }

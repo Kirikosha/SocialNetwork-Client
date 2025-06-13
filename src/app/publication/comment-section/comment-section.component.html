@@ -2,10 +2,12 @@
   <h3 class="comment-section-title">Comments ({{comments.length}})</h3>
   
   <!-- Comment creation -->
-  <app-comment-create 
-    [publicationId]="publicationId" 
-    (commentCreated)="onCommentCreated($event)">
-  </app-comment-create>
+   @if (isOwner) {
+    <app-comment-create 
+      [publicationId]="publicationId" 
+      (commentCreated)="onCommentCreated($event)">
+    </app-comment-create>
+   }
 
   <!-- Loading state -->
   <div *ngIf="isLoading" class="loading-state">
