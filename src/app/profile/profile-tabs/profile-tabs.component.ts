@@ -1,14 +1,14 @@
 import { Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs'
 import { CreatePublicationComponent } from "../../publication/create-publication/create-publication.component";
-import { PublicationMyListComponent } from "../../publication/publication-my-list/publication-my-list.component";
+import { PublicationListComponent } from "../../publication/publication-list/publication-list.component";
 import { AccountService } from '../../_services/account.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile-tabs',
   standalone: true,
-  imports: [MatTabsModule, CreatePublicationComponent, PublicationMyListComponent],
+  imports: [MatTabsModule, CreatePublicationComponent, PublicationListComponent],
   templateUrl: './profile-tabs.component.html',
   styleUrl: './profile-tabs.component.css',
   encapsulation: ViewEncapsulation.None
@@ -19,7 +19,7 @@ export class ProfileTabsComponent implements OnInit {
   uniqueNameIdentifier: string = '';
   isOwner: boolean = false;
 
-  @ViewChild(PublicationMyListComponent) publicationList!: PublicationMyListComponent;
+  @ViewChild('publicationList') publicationList!: PublicationListComponent;
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {

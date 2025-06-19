@@ -1,12 +1,39 @@
-<div style="width: 500px; margin: 50px auto;">
-    <mat-tab-group [backgroundColor]="'primary'">
-        <mat-tab label="My posts">
-            @if (isOwner && !accountService.currentUser()?.blocked){
-                <app-create-publication
-                (publicationCreated)="refreshPublications()"></app-create-publication>
-            }
-            <app-publication-my-list #publicationList></app-publication-my-list>
-        </mat-tab>
-        <mat-tab label="My comments"></mat-tab>
-    </mat-tab-group>
+<div class="profile-tabs-container">
+  <mat-tab-group animationDuration="200ms" class="custom-tab-group">
+    <mat-tab label="My Posts">
+      <ng-template mat-tab-label>
+        <div class="tab-label">
+          <i class="bi bi-postcard-heart"></i>
+          <span>My Posts</span>
+        </div>
+      </ng-template>
+      
+      <div class="tab-content">
+        @if (isOwner && !accountService.currentUser()?.blocked) {
+          <app-create-publication
+            (publicationCreated)="refreshPublications()"
+            class="mb-4">
+          </app-create-publication>
+        }
+        <app-publication-my-list #publicationList></app-publication-my-list>
+      </div>
+    </mat-tab>
+    
+    <mat-tab label="My Comments">
+      <ng-template mat-tab-label>
+        <div class="tab-label">
+          <i class="bi bi-chat-square-text"></i>
+          <span>My Comments</span>
+        </div>
+      </ng-template>
+      
+      <div class="tab-content">
+        <!-- Comment content will go here -->
+        <div class="empty-state">
+          <i class="bi bi-chat-square-text"></i>
+          <p>Your comments will appear here</p>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>

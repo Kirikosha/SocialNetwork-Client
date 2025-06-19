@@ -12,10 +12,10 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-publication-my-list',
   standalone: true,
   imports: [CommonModule, PublicationCardComponent],
-  templateUrl: './publication-my-list.component.html',
-  styleUrl: './publication-my-list.component.css'
+  templateUrl: './publication-list.component.html',
+  styleUrl: './publication-list.component.css'
 })
-export class PublicationMyListComponent implements OnInit{
+export class PublicationListComponent implements OnInit{
   private route = inject(ActivatedRoute);
   private publicationService = inject(PublicationService);
   private accountService = inject(AccountService);

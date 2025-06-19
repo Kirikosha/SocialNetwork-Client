@@ -16,18 +16,7 @@ import { LoginModel } from '../_models/loginModel';
 export class NavComponent {
   accountService = inject(AccountService);
   private router = inject(Router);
-  private toastr = inject(ToastrService);
   model: any = {};
-
-  login() {
-    console.log(this.model);
-    this.accountService.login(this.model).subscribe({
-      next: _ => {
-        this.router.navigateByUrl('/');
-      },
-      error: error => this.toastr.error(error.error)
-    })
-  }
 
   logout(){
     this.accountService.logout();

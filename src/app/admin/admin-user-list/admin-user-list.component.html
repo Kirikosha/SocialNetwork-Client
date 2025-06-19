@@ -1,1 +1,151 @@
-<p>admin-user-list works!</p>
+<div class="admin-user-list-container">
+  <div class="header mb-4">
+    <h1 class="text-white">
+      <i class="bi bi-people-fill me-2"></i>User Management
+    </h1>
+    <p class="text-muted">Manage all registered users of the platform</p>
+  </div>
+
+  <div class="card bg-dark border-secondary mb-4">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-2 mb-md-0">
+          <div class="input-group">
+            <span class="input-group-text bg-dark border-secondary text-white">
+              <i class="bi bi-search"></i>
+            </span>
+            <input type="text" 
+                   class="form-control bg-dark border-secondary text-white" 
+                   placeholder="Search users..." 
+                   [(ngModel)]="searchTerm">
+          </div>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <button class="btn btn-outline-primary" (click)="loadUsers()">
+            <i class="bi bi-arrow-clockwise me-1"></i> Refresh
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="text-white mt-2">Loading users...</p>
+  </div>
+
+  <div *ngIf="!isLoading && filteredUsers.length === 0" class="text-center py-5">
+    <i class="bi bi-people text-muted" style="font-size: 3rem;"></i>
+    <h4 class="text-white mt-3">No users found</h4>
+    <p class="text-muted">Try adjusting your search or refresh the list</p>
+  </div>
+
+  <div *ngIf="!isLoading && filteredUsers.length > 0" class="user-list">
+    <div class="table-responsive">
+      <table class="table table-dark table-hover align-middle">
+        <thead>
+          <tr>
+            <th (click)="sortUsers('username')" class="sortable">
+              Username 
+              <i class="bi" [ngClass]="{
+                'bi-arrow-up': currentSort === 'username' && isAscending,
+                'bi-arrow-down': currentSort === 'username' && !isAscending
+              }"></i>
+            </th>
+            <th (click)="sortUsers('email')" class="sortable">
+              Email 
+              <i class="bi" [ngClass]="{
+                'bi-arrow-up': currentSort === 'email' && isAscending,
+                'bi-arrow-down': currentSort === 'email' && !isAscending
+              }"></i>
+            </th>
+            <th (click)="sortUsers('violationScore')" class="sortable">
+              Violation Score 
+              <i class="bi" [ngClass]="{
+                'bi-arrow-up': currentSort === 'violationScore' && isAscending,
+                'bi-arrow-down': currentSort === 'violationScore' && !isAscending
+              }"></i>
+            </th>
+            <th (click)="sortUsers('amountOfViolations')" class="sortable">
+              Violations 
+              <i class="bi" [ngClass]="{
+                'bi-arrow-up': currentSort === 'amountOfViolations' && isAscending,
+                'bi-arrow-down': currentSort === 'amountOfViolations' && !isAscending
+              }"></i>
+            </th>
+            <th (click)="sortUsers('blocked')" class="sortable">
+              Status 
+              <i class="bi" [ngClass]="{
+                'bi-arrow-up': currentSort === 'blocked' && isAscending,
+                'bi-arrow-down': currentSort === 'blocked' && !isAscending
+              }"></i>
+            </th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of filteredUsers">
+            <td>
+              <div class="d-flex align-items-center">
+                <img [src]="user.profileImage?.imageUrl || 'assets/user.png'" 
+                     class="rounded-circle me-2" 
+                     width="40" 
+                     height="40"
+                     alt="User avatar">
+                <div>
+                  <div class="text-white">{{ user.username }}</div>
+                  <small class="text-muted">&#64;{{ user.uniqueNameIdentifier }}</small>
+                </div>
+              </div>
+            </td>
+            <td class="text-white">{{ user.email }}</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="progress bg-dark" style="width: 100px; height: 10px;">
+                  <div class="progress-bar" 
+                       [ngClass]="{
+                         'bg-success': user.violationScore < 20,
+                         'bg-warning': user.violationScore >= 20 && user.violationScore < 50,
+                         'bg-danger': user.violationScore >= 50
+                       }"
+                       [style.width.%]="user.violationScore > 100 ? 100 : user.violationScore">
+                  </div>
+                </div>
+                <span class="ms-2 text-white">{{ user.violationScore }}</span>
+              </div>
+            </td>
+            <td class="text-white">{{ user.amountOfViolations }}</td>
+            <td>
+              <span class="badge" [ngClass]="{
+                'bg-danger': user.blocked,
+                'bg-success': !user.blocked
+              }">
+                {{ user.blocked ? 'Blocked' : 'Active' }}
+              </span>
+            </td>
+            <td>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-info"
+                        [routerLink]="['/admin/violation-list', user.id]">
+                  <i class="bi bi-list-check"></i>
+                </button>
+                <button *ngIf="!user.blocked" 
+                        class="btn btn-sm btn-outline-danger"
+                        (click)="onBlockUser(user.id)">
+                  <i class="bi bi-lock-fill"></i>
+                </button>
+                <button *ngIf="user.blocked" 
+                        class="btn btn-sm btn-outline-success"
+                        (click)="onUnblockUser(user.id)">
+                  <i class="bi bi-unlock-fill"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
