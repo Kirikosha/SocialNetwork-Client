@@ -4,4 +4,5 @@ export interface UpdateMemberModel {
     uniqueNameIdentifier: string;
     joinedAt: string;
     profileImage?: File;
+    blocked: boolean;
 }

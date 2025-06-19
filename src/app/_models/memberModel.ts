@@ -6,4 +6,5 @@ export interface MemberModel {
     uniqueNameIdentifier: string,
     joinedAt: string
     profileImage: ImageModel
+    blocked: boolean
 }

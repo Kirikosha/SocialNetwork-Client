@@ -6,6 +6,7 @@ import { UpdateMemberModel } from '../../_models/updateMemberModel';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AccountService } from '../../_services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit',
@@ -19,6 +20,7 @@ export class EditComponent implements OnInit {
   private accountService = inject(AccountService);
   private toastr = inject(ToastrService);
   private fb = inject(FormBuilder);
+  private router = inject(Router);
   
   memberModel!: MemberModel;
   editForm!: FormGroup;
@@ -91,7 +93,8 @@ export class EditComponent implements OnInit {
       username: this.editForm.value.username,
       uniqueNameIdentifier: this.editForm.value.uniqueNameIdentifier,
       joinedAt: this.memberModel.joinedAt,
-      profileImage: this.editForm.value.profileImage
+      profileImage: this.editForm.value.profileImage,
+      blocked: this.memberModel.blocked
     };
 
     this.memberService.updateMember(updateModel).subscribe({
@@ -103,8 +106,11 @@ export class EditComponent implements OnInit {
           username: updateModel.username,
           uniqueNameIdentifier: updateModel.uniqueNameIdentifier,
           token: '',
-          role: ''
+          role: '',
+          blocked: this.memberModel.blocked
         })
+        this.router.navigate(['/profile', updateModel.uniqueNameIdentifier]);
+
       },
       error: (err) => {
         this.toastr.error('Failed to update profile', err.message);

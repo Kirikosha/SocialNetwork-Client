@@ -119,7 +119,7 @@ export class ProfileComponent implements OnInit {
   }
 
   toggleFollow() {
-    if (this.isCurrentUserProfile) return;
+    if (this.isCurrentUserProfile || this.accountService.currentUser()?.blocked) return;
     if (this.isFollowing){
       this.unfollowUser();
     }

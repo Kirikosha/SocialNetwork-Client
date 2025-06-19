@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Output, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { PublicationService } from '../../_services/publication.service';
 import { CreatePublicationModel } from '../../_models/createPublicationModel';
@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './create-publication.component.css'
 })
 export class CreatePublicationComponent {
+  @Output() publicationCreated = new EventEmitter<void>();
   private toastrService = inject(ToastrService);
   private publicationService = inject(PublicationService);
   
@@ -56,8 +57,8 @@ createPost(event: Event) {
 
   this.publicationService.createPublication(publication).subscribe({
     next: (response) => {
-      this.toastrService.success('Post created successfully!');
       this.resetForm();
+      this.publicationCreated.emit();
     },
     error: (err) => {
       console.error('Error details:', err);

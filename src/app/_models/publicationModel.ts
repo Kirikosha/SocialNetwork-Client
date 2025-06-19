@@ -11,4 +11,5 @@ export interface PublicationModel{
     author: MemberModel;
     likesAmount: number;
     isLikedByCurrentUser: boolean;
+    commentAmount: number;
 }

@@ -38,7 +38,7 @@ export class PublicationMyListComponent implements OnInit{
     this.isCurrentUserProfile = currentUser?.uniqueNameIdentifier === uniqueNameIdentifier;
   }
 
-  private loadPublications(uniqueNameIdentifier: string): void {
+  loadPublications(uniqueNameIdentifier: string): void {
     console.log(`Loading publications for user: ${uniqueNameIdentifier}`);
     this.isLoading = true;
     this.publicationService.getPublications(uniqueNameIdentifier).subscribe({

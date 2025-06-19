@@ -78,7 +78,7 @@ export class PublicationCardComponent {
   }
 
   likePublicationMethod() {
-    if (this.accountService.currentUser()){
+    if (this.accountService.currentUser() && !this.accountService.currentUser()?.blocked) {
       this.likePublication.emit(this.publication.id);
     }
   }
