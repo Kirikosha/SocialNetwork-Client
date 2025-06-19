@@ -21,10 +21,10 @@
           <!-- Image Upload -->
           <label for="image-upload" class="option-button">
             <i class="bi bi-image"></i>
-            <input id="image-upload" type="file" multiple accept="image/*" (change)="handleImageUpload($event)" style="display: none;">
+            <input #imageUpload id="image-upload" type="file" multiple accept="image/*" 
+                   (change)="handleImageUpload($event)" style="display: none;">
           </label>
           
-          <!-- Post Type Selection -->
           <div class="btn-group post-type-toggle" role="group">
             <input type="radio" class="btn-check" name="publicationType" id="ordinaryPost" 
                    [(ngModel)]="publicationType" value="ordinary" checked>
@@ -35,7 +35,6 @@
             <label class="btn btn-outline-danger" for="plannedPost">Schedule</label>
           </div>
           
-          <!-- Schedule Options (shown only when planned post is selected) -->
           <div class="schedule-options" *ngIf="publicationType === 'planned'">
             <input type="datetime-local" class="form-control schedule-input" 
                    [min]="minScheduleDate" [(ngModel)]="scheduledDate" name="scheduledDate">
@@ -52,4 +51,41 @@
       </button>
     </div>
   </form>
+
+<div class="modal-backdrop" *ngIf="showCropper"></div>
+
+<div class="cropper-modal" *ngIf="showCropper">
+  <div class="cropper-header">
+    <h5>Crop Image</h5>
+    <button type="button" class="btn-close" (click)="cancelCrop()"></button>
+  </div>
+  <div class="cropper-container">
+<image-cropper
+  [imageFile]="currentFile"
+  [maintainAspectRatio]="true"
+  [aspectRatio]="1"
+  format="jpeg"
+  (imageCropped)="imageCropped($event)"
+  [resizeToWidth]="800"
+  [onlyScaleDown]="true"
+  [cropperMinWidth]="256"
+  [alignImage]="'center'"
+  style="max-height: 60vh; width: 100%; display: block;">
+</image-cropper>
+
+  </div>
+  <div class="cropper-controls d-flex justify-content-end gap-2 p-3">
+    <button type="button" class="btn btn-outline-secondary" (click)="cancelCrop()">
+      Cancel
+    </button>
+    <button 
+      type="button" 
+      class="btn btn-primary"
+      (click)="applyCrop()"
+      [disabled]="!croppedImage"
+    >
+      Apply Crop
+    </button>
+  </div>
+</div>
 </div>

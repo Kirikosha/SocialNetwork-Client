@@ -18,5 +18,5 @@ export const routes: Routes = [
     {path: 'search', component: SearchPageComponent},
     {path: 'admin-panel', component: AdminPanelComponent},
     {path: 'admin/user-list', component: AdminUserListComponent},
-    {path: 'admin/violation-list/:userId', component: AdminViolationsComponent}
+    {path: 'admin/violation-list/:userId', component: AdminViolationsComponent},
        ];
