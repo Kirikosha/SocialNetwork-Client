@@ -26,6 +26,7 @@
     "bootswatch": "^5.3.6",
     "font-awesome": "^4.7.0",
     "jwt-decode": "^4.0.0",
+    "ng-bootstrap-icons": "^13.1.2-canary.1",
     "ngx-bootstrap": "^19.0.2",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",

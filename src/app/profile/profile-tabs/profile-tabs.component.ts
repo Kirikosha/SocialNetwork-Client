@@ -5,6 +5,7 @@ import { PublicationListComponent } from "../../publication/publication-list/pub
 import { AccountService } from '../../_services/account.service';
 import { ActivatedRoute } from '@angular/router';
 
+
 @Component({
   selector: 'app-profile-tabs',
   standalone: true,
@@ -16,6 +17,11 @@ import { ActivatedRoute } from '@angular/router';
 export class ProfileTabsComponent implements OnInit {
   accountService = inject(AccountService);
   private route = inject(ActivatedRoute);
+  
+  // Icons
+
+  // Tab management
+  activeTab: 'posts' | 'comments' = 'posts';
   uniqueNameIdentifier: string = '';
   isOwner: boolean = false;
 

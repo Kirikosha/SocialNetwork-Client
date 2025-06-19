@@ -1,39 +1,35 @@
-<div class="profile-tabs-container">
-  <mat-tab-group animationDuration="200ms" class="custom-tab-group">
-    <mat-tab label="My Posts">
-      <ng-template mat-tab-label>
-        <div class="tab-label">
-          <i class="bi bi-postcard-heart"></i>
-          <span>My Posts</span>
-        </div>
-      </ng-template>
-      
-      <div class="tab-content">
-        @if (isOwner && !accountService.currentUser()?.blocked) {
-          <app-create-publication
-            (publicationCreated)="refreshPublications()"
-            class="mb-4">
-          </app-create-publication>
-        }
-        <app-publication-my-list #publicationList></app-publication-my-list>
-      </div>
-    </mat-tab>
+<div class="custom-tabs">
+  <div class="tab-header">
+    <button 
+      class="tab-button" 
+      [class.active]="activeTab === 'posts'"
+      (click)="activeTab = 'posts'">
+      <i class="bi bi-postcard-heart"></i> My Posts
+    </button>
+    <button 
+      class="tab-button" 
+      [class.active]="activeTab === 'comments'"
+      (click)="activeTab = 'comments'">
+      <i class="bi bi-chat-square-text"></i> My Comments
+    </button>
+  </div>
+  
+  <div class="tab-content">
+    @if (activeTab === 'posts') {
+      @if (isOwner && !accountService.currentUser()?.blocked) {
+        <app-create-publication
+          (publicationCreated)="refreshPublications()"
+          class="mb-4">
+        </app-create-publication>
+      }
+      <app-publication-my-list #publicationList></app-publication-my-list>
+    }
     
-    <mat-tab label="My Comments">
-      <ng-template mat-tab-label>
-        <div class="tab-label">
-          <i class="bi bi-chat-square-text"></i>
-          <span>My Comments</span>
-        </div>
-      </ng-template>
-      
-      <div class="tab-content">
-        <!-- Comment content will go here -->
-        <div class="empty-state">
-          <i class="bi bi-chat-square-text"></i>
-          <p>Your comments will appear here</p>
-        </div>
+    @if (activeTab === 'comments') {
+      <div class="empty-state">
+        <i class="bi bi-chat-square-text"></i>
+        <p>Your comments will appear here</p>
       </div>
-    </mat-tab>
-  </mat-tab-group>
+    }
+  </div>
 </div>
