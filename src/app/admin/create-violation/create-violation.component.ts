@@ -24,7 +24,7 @@ export class CreateViolationComponent implements OnInit {
   showModal = false;
   deletionReason = '';
   isDeleting = false;
-  isAdmin = this.accountService.currentUser()?.role === 'Admin';
+  isAdmin = false;
   isPublicationF = false;
 
   reasons = [
@@ -40,6 +40,7 @@ export class CreateViolationComponent implements OnInit {
 
   ngOnInit(): void {
     this.isPublicationF = this.isPublication();
+    this.isAdmin = this.accountService.currentUser()?.role === 'Admin';
   }
 
   isPublication(): boolean {

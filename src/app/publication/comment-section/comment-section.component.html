@@ -57,6 +57,9 @@
       <div class="comment-content">
         {{comment.content}}
       </div>
+      <app-create-violation
+      [item]="comment"
+      (itemDeleted)="onAdminCommentDeleted($event)"></app-create-violation>
     </div>
   </div>
 </div>

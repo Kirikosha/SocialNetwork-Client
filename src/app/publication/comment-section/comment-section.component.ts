@@ -7,17 +7,20 @@ import { CreateCommentModel } from '../../_models/createCommentModel';
 import { AccountService } from '../../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { PublicationModel } from '../../_models/publicationModel';
+import { CreateViolationComponent } from "../../admin/create-violation/create-violation.component";
+import { AdminService } from '../../_services/admin.service';
 
 @Component({
   selector: 'app-comment-section',
   standalone: true,
-  imports: [CommonModule, CommentCreateComponent],
+  imports: [CommonModule, CommentCreateComponent, CreateViolationComponent],
   templateUrl: './comment-section.component.html',
   styleUrl: './comment-section.component.css'
 })
 export class CommentSectionComponent implements OnInit {
   @Input() publicationId!: number;
   @Input() uniqueNameIdentifier!: string;
+  private adminService = inject(AdminService);
   private commentService = inject(CommentService);
   accountService = inject(AccountService);
   private toastr = inject(ToastrService); 
@@ -49,9 +52,6 @@ export class CommentSectionComponent implements OnInit {
     });
   }
 
-  loadPublication(): void {
-
-  }
 
   onCommentCreated(comment: CreateCommentModel): void {
     this.commentService.createComment(comment).subscribe({
@@ -82,4 +82,7 @@ export class CommentSectionComponent implements OnInit {
     return this.currentUniqueName === uniqueNameIdentifier;
   }
 
+  onAdminCommentDeleted(id: number) {
+    this.comments= this.comments.filter(p => p.id !== id);
+  }
 }

@@ -44,6 +44,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
+  margin-top: 10px;
 }
 
 .comment-author {
@@ -85,4 +86,10 @@
   line-height: 1.4;
   padding-left: 40px;
   text-align: left; 
+}
+
+.comment-card {
+  position: relative;
+  padding: 16px 0;
+  border-bottom: 1px solid #e6ecf0;
 }
