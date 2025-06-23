@@ -53,5 +53,9 @@ deletePublication(publicationId: number){
 likePublication(publicationId: number){
   return this.http.get<LikeModel>(this.baseUrl + `/publication/like/${publicationId}`);
 }
+
+getRecommendations(){
+  return this.http.get<PublicationModel[]>(this.baseUrl + '/recommendations');
+}
   constructor() { }
 }

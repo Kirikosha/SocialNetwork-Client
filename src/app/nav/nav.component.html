@@ -10,6 +10,9 @@
                 <li class="nav-item">
                     <a routerLink="/search" routerLinkActive="active" class="nav-link">Search</a>
                 </li>
+                <li class="nav-item">
+                    <a routerLink="/recommended-publications" routerLinkActive="active" class="nav-link">Recommendations</a>
+                </li>
             }
             @if (accountService.currentUser()?.role === 'Admin'){
                 <li class="nav-item">
@@ -30,9 +33,9 @@
             </div>
         }
         @else {
-            <div class="navbar-text text-light">
-                <a class="text-light text-decoration-none" routerLink="/register">Register</a>
-                <a class="text-light text-decoration-none" routerLink="/login">Login</a>
+            <div class="d-flex gap-3">
+                <a class="btn btn-outline-light" routerLink="/register">Register</a>
+                <a class="btn btn-primary" routerLink="/login">Login</a>
             </div>
         }
     </div>

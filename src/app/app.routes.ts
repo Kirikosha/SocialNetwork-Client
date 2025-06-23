@@ -9,6 +9,7 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { AdminUserListComponent } from './admin/admin-user-list/admin-user-list.component';
 import { AdminViolationsComponent } from './admin/admin-violations/admin-violations.component';
 import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
+import { RecommendationListComponent } from './recommendation/recommendation-list/recommendation-list.component';
 
 export const routes: Routes = [
     {path: 'login', component:LoginComponent},
@@ -20,5 +21,6 @@ export const routes: Routes = [
     {path: 'admin-panel', component: AdminPanelComponent},
     {path: 'admin/user-list', component: AdminUserListComponent},
     {path: 'admin/violation-list/:userId', component: AdminViolationsComponent},
-    {path: 'password-reset', component: PasswordResetComponent}
+    {path: 'password-reset', component: PasswordResetComponent},
+    {path: 'recommended-publications', component: RecommendationListComponent}
        ];

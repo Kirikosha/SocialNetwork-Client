@@ -121,4 +121,13 @@ export class EditComponent implements OnInit {
 
   get username() { return this.editForm.get('username'); }
   get uniqueNameIdentifier() { return this.editForm.get('uniqueNameIdentifier'); }
+
+  formatDate(dateString: string): string {
+  const [day, month, year] = dateString.split('.');
+  const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day)); // month is 0-based
+  return date.toLocaleDateString('en-US', { 
+    month: 'long', 
+    year: 'numeric' 
+  });
+}
 }

@@ -59,7 +59,7 @@ export class CommentSectionComponent implements OnInit {
         this.comments = [newComment, ...this.comments]; // Add new comment at beginning
       },
       error: (err) => {
-        // Handle error (could show toast message)
+        this.toastr.error(err)
       }
     });
   }
