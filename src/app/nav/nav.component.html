@@ -1,42 +1,53 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <div class="container">
-        <a class="navbar-brand" routerLink="/" routerLinkActive="active">Social network</a>
+<header>
+  <div class="header-container container">
+    <h1 class="logo hover" routerLink="/" routerLinkActive="active">BlackBox</h1>
 
-        <ul class="navbar-nav me-auto mb-2 mb-md-0">
-            @if (accountService.currentUser()){
-                <li class="nav-item">
-                    <a (click)="goToProfile()" routerLinkActive="active" class="nav-link">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a routerLink="/search" routerLinkActive="active" class="nav-link">Search</a>
-                </li>
-                <li class="nav-item">
-                    <a routerLink="/recommended-publications" routerLinkActive="active" class="nav-link">Recommendations</a>
-                </li>
-            }
-            @if (accountService.currentUser()?.role === 'Admin'){
-                <li class="nav-item">
-                    <a routerLink="/admin-panel" routerLinkActive="active" class="nav-link">Admin</a>
-                </li>
-            }
-        </ul>
+    <nav class="main-nav">
+    <ul>
+<!--      @if (accountService.currentUser()){-->
+        <li>
+          <a (click)="goToProfile()" routerLinkActive="active" class="nav-link forward">Profile</a>
+        </li>
+        <li>
+          <a routerLink="/search" routerLinkActive="active" class="nav-link forward">Search</a>
+        </li>
+<!--        <li>-->
+<!--          <a routerLink="/recommended-publications" routerLinkActive="active" class="nav-link">Recommendations</a>-->
+<!--        </li>-->
+<!--      }-->
+<!--      @if (accountService.currentUser()?.role === 'Admin'){-->
+        <li>
+          <a routerLink="/admin-panel" routerLinkActive="active" class="nav-link forward">Admin</a>
+        </li>
+<!--      }-->
+    </ul>
 
-        @if (accountService.currentUser()){
-            <div dropdown class="dropdown">
-                <a dropdownToggle class="dropdown-toggle text-light text-decoration-none">
-                    Welcome {{accountService.currentUser()?.username}}
-                </a>
+    @if (accountService.currentUser()){
+      <div dropdown class="dropdown">
+        <a dropdownToggle class="dropdown-toggle text-light text-decoration-none">
+          Welcome {{accountService.currentUser()?.username}}
+        </a>
 
-                <div *dropdownMenu class="dropdown-menu">
-                    <a class="dropdown-item" (click)="logout()">Logout</a>
-                </div>
-            </div>
-        }
-        @else {
-            <div class="d-flex gap-3">
-                <a class="btn btn-outline-light" routerLink="/register">Register</a>
-                <a class="btn btn-primary" routerLink="/login">Login</a>
-            </div>
-        }
-    </div>
-</nav>
+        <div *dropdownMenu class="dropdown-menu">
+          <a class="dropdown-item" (click)="logout()">Logout</a>
+        </div>
+      </div>
+    }
+      @else {
+      <div>
+
+        <button class="btn" routerLink="/register">
+        <span class="btn__inner">
+          <span class="btn__text">Register</span>
+        </span>
+      </button>
+        <button class="btn" routerLink="/login">
+        <span class="btn__inner">
+          <span class="btn__text">Login</span>
+        </span>
+      </button>
+      </div>
+    }
+    </nav>
+  </div>
+</header>

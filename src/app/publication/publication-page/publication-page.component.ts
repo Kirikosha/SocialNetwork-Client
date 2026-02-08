@@ -6,11 +6,12 @@ import { PublicationService } from '../../_services/publication.service';
 import { CommonModule } from '@angular/common';
 import { CommentSectionComponent } from "../comment-section/comment-section.component";
 import { AccountService } from '../../_services/account.service';
+import { IconComponent } from "../../../shared-components/icon/icon.component";
 
 @Component({
   selector: 'app-publication-page',
   standalone: true,
-  imports: [CommonModule, CommentSectionComponent],
+  imports: [CommonModule, CommentSectionComponent, IconComponent],
   templateUrl: './publication-page.component.html',
   styleUrl: './publication-page.component.css'
 })

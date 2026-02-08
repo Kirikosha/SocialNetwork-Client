@@ -10,6 +10,9 @@ import { AdminUserListComponent } from './admin/admin-user-list/admin-user-list.
 import { AdminViolationsComponent } from './admin/admin-violations/admin-violations.component';
 import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 import { RecommendationListComponent } from './recommendation/recommendation-list/recommendation-list.component';
+import {HomeComponent} from "./home/home/home.component";
+import { ComplaintsListComponent } from './complaint/complaints-list-component/complaints-list-component.component';
+import { CommentPageComponent } from './publication/comment-page/comment-page.component';
 
 export const routes: Routes = [
     {path: 'login', component:LoginComponent},
@@ -22,5 +25,8 @@ export const routes: Routes = [
     {path: 'admin/user-list', component: AdminUserListComponent},
     {path: 'admin/violation-list/:userId', component: AdminViolationsComponent},
     {path: 'password-reset', component: PasswordResetComponent},
-    {path: 'recommended-publications', component: RecommendationListComponent}
+    {path: 'recommended-publications', component: RecommendationListComponent},
+    {path: 'complaints', component: ComplaintsListComponent},
+    {path: 'comments/:id', component: CommentPageComponent},
+    {path: '', component: HomeComponent}
        ];

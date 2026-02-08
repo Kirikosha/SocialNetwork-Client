@@ -1,5 +1,5 @@
 .post-creator-container {
-  background-color: #15202b;
+  background-color: white;
   border-radius: 16px;
   padding: 16px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -35,7 +35,7 @@
   font-size: 1.1rem;
   resize: none;
   width: 100%;
-  background-color: #15202b;
+  background-color: white;
   color: #ffffff;
 }
 
@@ -62,7 +62,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #2d2d2d;
+  background-color: white;
   border-radius: 8px;
   z-index: 1050;
   width: 90%;

@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MemberService } from '../../_services/member.service';
-import { MemberModel } from '../../_models/memberModel';
+import { MemberModel } from '../../_models/user/memberModel';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../../_services/account.service';
 import { ProfileTabsComponent } from "../profile-tabs/profile-tabs.component";
@@ -57,7 +57,7 @@ export class ProfileComponent implements OnInit {
   }
 
     loadOtherMember(uniqueNameIdentifier: string): void {
-    this.memberService.getOtherProfile(uniqueNameIdentifier).subscribe({
+    this.memberService.getMemberByUniqueNameIdentifier(uniqueNameIdentifier).subscribe({
       next: (member) => {
         this.handleMemberData(member);
       },
@@ -78,13 +78,14 @@ export class ProfileComponent implements OnInit {
   }
 
 formatDate(dateString: string): string {
-  const [day, month, year] = dateString.split('.');
-  const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day)); // month is 0-based
-  return date.toLocaleDateString('en-US', { 
-    month: 'long', 
-    year: 'numeric' 
+  const date = new Date(dateString);
+
+  return date.toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric'
   });
 }
+
 
   goToUpdate() {
     this.router.navigate(['/edit-profile']);

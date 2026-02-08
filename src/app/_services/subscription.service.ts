@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { MemberModel } from '../_models/memberModel';
+import { MemberModel } from '../_models/user/memberModel';
 
 @Injectable({
   providedIn: 'root'

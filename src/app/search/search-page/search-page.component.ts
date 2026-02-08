@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MemberService } from '../../_services/member.service';
-import { MemberModel } from '../../_models/memberModel';
+import { MemberModel } from '../../_models/user/memberModel';
 
 @Component({
   selector: 'app-search-page',

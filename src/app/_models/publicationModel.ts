@@ -1,5 +1,5 @@
 import { ImageModel } from "./imageModel";
-import { MemberModel } from "./memberModel";
+import { MemberModel } from "./user/memberModel";
 
 export interface PublicationModel{
     id: number;

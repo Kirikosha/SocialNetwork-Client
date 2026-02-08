@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { CreateCommentModel } from '../_models/createCommentModel';
-import { CommentModel } from '../_models/commentModel';
+import { CommentModel, CreateCommentModel } from '../_models/commentModel';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +16,14 @@ export class CommentService {
 
   getCommentsByPublicationId(publicationId: number){
     return this.http.get<CommentModel[]>(this.baseUrl + `/comment/${publicationId}`);
+  }
+
+  getReplies(parentId: number) {
+    return this.http.get<CommentModel[]>(this.baseUrl + `/comment/${parentId}/replies`);
+  }
+
+  getComment(id: number) {
+    return this.http.get<CommentModel>(this.baseUrl + `/comment/${id}/comment`)
   }
 
   deleteComment(commentId: number){

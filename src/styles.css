@@ -15,27 +15,3 @@
     height: 100%;
     object-fit: cover;
 }
-
-/* Profile-tabs.component.css */
-
-::ng-deep .mat-tab-group {
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  padding: 8px;
-}
-
-::ng-deep .mat-tab-label {
-  color: #555;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-::ng-deep .mat-tab-label.mat-tab-label-active {
-  color: #1976d2; /* Active tab */
-}
-
-::ng-deep .mat-ink-bar {
-  background-color: #1976d2; /* Indicator bar */
-  height: 4px;
-  border-radius: 2px;
-}

@@ -39,7 +39,7 @@
 }
 
 .profile-details {
-  padding-top: 60px;
+  padding-top: 40px;
 }
 
 .profile-name {
@@ -179,4 +179,104 @@
   justify-content: center;
   color: white;
   font-size: 2rem;
+}
+
+/* Profile Info Sections */
+.profile-info-section {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #e6ecf0;
+}
+
+.section-divider {
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #0f1419;
+  margin-bottom: 8px;
+}
+
+.divider-line {
+  height: 1px;
+  background-color: #e6ecf0;
+  width: 100%;
+}
+
+/* Profile Info Items */
+.profile-info-item {
+  display: flex;
+  align-items: flex-start;
+  color: #0f1419;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.profile-info-item i {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* Interest Badges */
+.interest-badge {
+  background-color: #e8f5fe;
+  color: #1da1f2;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.interest-badge:hover {
+  background-color: #d1ecff;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+  .profile-info-section {
+    padding: 12px;
+  }
+  
+  .section-title {
+    font-size: 1rem;
+  }
+  
+  .profile-info-item {
+    font-size: 0.9rem;
+  }
+  
+  .interest-badge {
+    padding: 3px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Ensure proper spacing */
+.profile-details .profile-info-section:first-child {
+  margin-top: 0;
+}
+
+/* If you want a more subtle look for the sections */
+.profile-info-section {
+  background-color: #f8f9fa;
+  border: none;
+}
+
+/* Or if you want a card-like appearance */
+.profile-info-section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f2f5;
+}
+
+.pright {
+  padding-right: 5px;
 }

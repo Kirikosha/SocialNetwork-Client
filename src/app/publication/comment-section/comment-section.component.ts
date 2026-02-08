@@ -1,34 +1,41 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { CommentService } from '../../_services/comment.service';
-import { CommentModel } from '../../_models/commentModel';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CommentCreateComponent } from "../comment-create/comment-create.component";
-import { CreateCommentModel } from '../../_models/createCommentModel';
-import { AccountService } from '../../_services/account.service';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { PublicationModel } from '../../_models/publicationModel';
-import { CreateViolationComponent } from "../../admin/create-violation/create-violation.component";
-import { AdminService } from '../../_services/admin.service';
+
+import { CommentService } from '../../_services/comment.service';
+import { AccountService } from '../../_services/account.service';
+import { CommentModel, CreateCommentModel } from '../../_models/commentModel';
+import { CommentCreateComponent } from '../comment-create/comment-create.component';
+import { MakeComplaintComponent } from '../../complaint/make-complaint-component/make-complaint-component.component';
+import { IconComponent } from "../../../shared-components/icon/icon.component";
 
 @Component({
   selector: 'app-comment-section',
   standalone: true,
-  imports: [CommonModule, CommentCreateComponent, CreateViolationComponent],
+  imports: [CommonModule, CommentCreateComponent, MakeComplaintComponent, IconComponent],
   templateUrl: './comment-section.component.html',
   styleUrl: './comment-section.component.css'
 })
 export class CommentSectionComponent implements OnInit {
   @Input() publicationId!: number;
   @Input() uniqueNameIdentifier!: string;
-  private adminService = inject(AdminService);
+
   private commentService = inject(CommentService);
+  private router = inject(Router);
   accountService = inject(AccountService);
-  private toastr = inject(ToastrService); 
+  private toastr = inject(ToastrService);
+
   currentUniqueName?: string;
   comments: CommentModel[] = [];
   isLoading = true;
   errorLoading = false;
   isOwner = false;
+
+  // Complaint modal (single instance for the whole list)
+@ViewChild('complaintModal') complaintComponent!: MakeComplaintComponent;
+  complaintTargetId: number = 0;
+  complaintModalId = 'complaintModal-comment-section';
 
   ngOnInit(): void {
     this.currentUniqueName = this.accountService.currentUser()?.uniqueNameIdentifier;
@@ -39,27 +46,41 @@ export class CommentSectionComponent implements OnInit {
   loadComments(): void {
     this.isLoading = true;
     this.errorLoading = false;
-    
+
     this.commentService.getCommentsByPublicationId(this.publicationId).subscribe({
       next: (comments) => {
-        this.comments = comments;
+        const validComments = comments.filter(comment => {
+          if (!comment.author) {
+            console.warn('Comment missing author:', comment);
+            return false;
+          }
+          return true;
+        });
+
+        this.comments = validComments;
         this.isLoading = false;
       },
       error: (err) => {
+        console.error('Error loading comments:', err);
         this.errorLoading = true;
         this.isLoading = false;
+        this.toastr.error('Failed to load comments');
       }
     });
   }
 
-
   onCommentCreated(comment: CreateCommentModel): void {
     this.commentService.createComment(comment).subscribe({
       next: (newComment) => {
-        this.comments = [newComment, ...this.comments]; // Add new comment at beginning
+        if (newComment.author) {
+          this.comments = [newComment, ...this.comments];
+        } else {
+          console.error('New comment missing author:', newComment);
+          this.toastr.error('Comment created but author data is missing');
+        }
       },
       error: (err) => {
-        this.toastr.error(err)
+        this.toastr.error(err.message || 'Failed to create comment');
       }
     });
   }
@@ -72,10 +93,14 @@ export class CommentSectionComponent implements OnInit {
         this.comments = this.comments.filter(c => c.id !== commentId);
         this.toastr.success('Comment deleted');
       },
-      error: (err) => {
+      error: () => {
         this.toastr.error('Failed to delete comment');
       }
     });
+  }
+
+  openThread(commentId: number): void {
+    this.router.navigate(['/comments', commentId]);
   }
 
   isCommentOwner(uniqueNameIdentifier: string): boolean {
@@ -83,6 +108,24 @@ export class CommentSectionComponent implements OnInit {
   }
 
   onAdminCommentDeleted(id: number) {
-    this.comments= this.comments.filter(p => p.id !== id);
+    this.comments = this.comments.filter(p => p.id !== id);
+  }
+
+  allCommentsHaveAuthors(): boolean {
+    return this.comments.every(comment => comment.author != null);
+  }
+
+  // ✅ Complaint
+  openComplaintModal(commentId: number): void {
+    this.complaintTargetId = commentId;
+    this.complaintComponent.openModal();
+  }
+
+  onComplaintSubmitted(): void {
+    console.log('Complaint submitted for comment:', this.complaintTargetId);
+  }
+
+  onComplaintModalClosed(): void {
+    this.complaintComponent.closeModal();
   }
 }

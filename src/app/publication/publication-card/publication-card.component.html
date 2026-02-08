@@ -1,31 +1,24 @@
 <div class="publication-card" *ngIf="publication">
   <div class="publication-content">
-    <div class="author-info">
-      <div class="profile-pic-wrapper">
-        @if (publication.author.profileImage && publication.author.profileImage.imageUrl) {
-          <img [src]="publication.author.profileImage.imageUrl" 
-               alt="Profile Picture" 
-               class="profile-pic rounded-circle">
-        } @else {
-          <img src="assets/user.png" 
-               alt="Profile Picture" 
-               class="profile-pic rounded-circle">
-        }
-      </div>
-      <div class="author-details">
-        <div class="d-flex align-items-center flex-wrap">
-          <span class="author-name">{{publication.author.username}}</span>
-          <span class="author-handle"> &#64;{{publication.author.uniqueNameIdentifier}}</span>
-          <span class="post-time"> · {{formatDate(publication.postedAt)}}</span>
-          <span class="updated-time" *ngIf="publication.updatedAt">
-             · <i class="bi bi-pencil-fill"></i> {{formatDate(publication.updatedAt)}}
-          </span>
-        </div>
+    <div class="publication-header">
+      <app-icon [user] = "publication.author"></app-icon>
+      <div class="publication-meta">
+        <span class="post-time">
+          · {{ formatDate(publication.postedAt) }}
+        </span>
+
+        <span class="updated-time" *ngIf="publication.updatedAt">
+          · <i class="bi bi-pencil-fill"></i>
+          {{ formatDate(publication.updatedAt) }}
+        </span>
+
         <div class="scheduled-time" *ngIf="publication.remindAt">
-          <i class="bi bi-clock"></i> Scheduled for {{formatDateTime(publication.remindAt)}}
+          <i class="bi bi-clock"></i>
+          Scheduled for {{ formatDateTime(publication.remindAt) }}
         </div>
       </div>
     </div>
+
 
     <div class="click-to-open" (click)="goToPublicationPage(publication.id)">
       <div *ngIf="!isEditing">
@@ -88,10 +81,22 @@
               (click)="isEditing ? cancelEditing() : delete()">
         <i class="bi" [class.bi-trash]="!isEditing" [class.bi-x-square]="isEditing"></i>
       </button>
+
+      <button class="action-button" (click)="openComplaintModal()">
+        <i class="bi bi-flag"></i>
+      </button>
     </div>
 
     <div class="admin-actions-wrapper">
       <ng-content></ng-content>
     </div>
+
+    <app-make-complaint
+    [targetId]="publication.id"
+    targetType="publication"
+    [title]="'Report Publication'"
+    (complaintSubmitted)="onComplaintSubmitted()"
+    (modalClosed)="onComplaintModalClosed()">
+  </app-make-complaint>
   </div>
 </div>

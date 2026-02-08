@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CreateCommentModel } from '../../_models/createCommentModel';
 import { CommonModule } from '@angular/common';
+import { CreateCommentModel } from '../../_models/commentModel';
 
 @Component({
   selector: 'app-comment-create',

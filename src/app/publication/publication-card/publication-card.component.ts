@@ -1,16 +1,17 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { PublicationService } from '../../_services/publication.service';
+import { Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { PublicationModel } from '../../_models/publicationModel';
 import { CommonModule, DatePipe, NgClass } from '@angular/common';
 import { UpdatePublicationModel } from '../../_models/updatePublicationModel';
 import { AccountService } from '../../_services/account.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MakeComplaintComponent } from "../../complaint/make-complaint-component/make-complaint-component.component";
+import { IconComponent } from "../../../shared-components/icon/icon.component";
 
 @Component({
   selector: 'app-publication-card',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MakeComplaintComponent, IconComponent],
   templateUrl: './publication-card.component.html',
   styleUrl: './publication-card.component.css',
   providers: [DatePipe]
@@ -23,10 +24,13 @@ export class PublicationCardComponent {
   @Output() deletePublication = new EventEmitter<number>();
   @Output() likePublication = new EventEmitter<number>();
 
+  @ViewChild(MakeComplaintComponent) complaintComponent!: MakeComplaintComponent;
+
   isEditing = false;
   editedContent = '';
   editedRemindAt: string | null = null;
   constructor(private datePipe: DatePipe) {}
+
 
   formatDate(date: Date): string {
     return this.datePipe.transform(date, 'MMM d, y, h:mm a') || '';
@@ -86,5 +90,17 @@ export class PublicationCardComponent {
   goToPublicationPage(publicationId: number) {
     this.router.navigate(['/publication', publicationId]);    
   }
+
+  openComplaintModal(): void {
+    this.complaintComponent.openModal();
+  }
+
+    onComplaintSubmitted(): void {
+    console.log('Complaint submitted for publication:', this.publication.id);
+    }
+
+    onComplaintModalClosed(): void {
+      this.complaintComponent.closeModal();
+    }
 
 }

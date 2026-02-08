@@ -2,12 +2,12 @@
   <h3 class="comment-section-title">Comments ({{comments.length}})</h3>
   
   <!-- Comment creation -->
-   @if (!accountService.currentUser()?.blocked) {
+  @if (!accountService.currentUser()?.blocked) {
     <app-comment-create 
       [publicationId]="publicationId" 
       (commentCreated)="onCommentCreated($event)">
     </app-comment-create>
-   }
+  }
 
   <!-- Loading state -->
   <div *ngIf="isLoading" class="loading-state">
@@ -30,36 +30,47 @@
   <div class="comments-list">
     <div *ngFor="let comment of comments" class="comment-card">
       <div class="comment-header">
-        <div class="comment-author">
-            @if (comment.author.profileImage && comment.author.profileImage.imageUrl) {
-              <img [src]="comment.author.profileImage.imageUrl" 
-                   alt="Profile" 
-                   class="comment-author-image">
-            } @else {
-                <img src="assets/user.png" 
-                     alt="Profile" 
-                     class="comment-author-image">
-            }
-          <div class="comment-author-info">
-            <span class="comment-author-name">{{comment.author.username}}</span>
-            <span class="comment-author-handle">&#64;{{comment.author.uniqueNameIdentifier}}</span>
-          </div>
-        </div>
+        <app-icon [user] = "comment.author"></app-icon>
         <div class="comment-actions">
           <span class="comment-time">{{comment.creationDate | date: 'MMM d, y, h:mm a'}}</span>
-          <button *ngIf="isCommentOwner(comment.author.uniqueNameIdentifier)" 
+
+          <button class="btn btn-link btn-sm"
+                  (click)="openComplaintModal(comment.id)">
+            <i class="bi bi-flag"></i>
+          </button>
+
+          <button *ngIf="comment.author && isCommentOwner(comment.author.uniqueNameIdentifier)" 
                   class="btn btn-link btn-sm delete-button"
                   (click)="deleteComment(comment.id)">
             <i class="bi bi-trash"></i>
           </button>
         </div>
       </div>
+
       <div class="comment-content">
-        {{comment.content}}
+        <ng-container *ngIf="!comment.isDeleted; else removedTemplate">
+          {{comment.content}}
+        </ng-container>
+        <ng-template #removedTemplate>
+          This comment was removed
+        </ng-template>
+
+        <button type="button"
+                class="btn btn-link btn-sm p-0 mt-2"
+                (click)="openThread(comment.id)">
+          {{comment.repliesAmount || 0}} replies
+        </button>
       </div>
-      <app-create-violation
-      [item]="comment"
-      (itemDeleted)="onAdminCommentDeleted($event)"></app-create-violation>
     </div>
   </div>
+<app-make-complaint
+  #complaintModal
+  [targetId]="complaintTargetId"
+  targetType="comment"
+  title="Report comment"
+  [modalId]="complaintModalId"
+  (complaintSubmitted)="onComplaintSubmitted()"
+  (modalClosed)="onComplaintModalClosed()">
+</app-make-complaint>
+
 </div>
