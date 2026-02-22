@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
+import {EasyImageDrawing} from 'ngx-easy-image-drawing'
 
 @Component({
   selector: 'app-image-edit',
   standalone: true,
-  imports: [ImageCropperComponent, CommonModule],
+  imports: [ImageCropperComponent, CommonModule, EasyImageDrawing],
   templateUrl: './image-edit.component.html',
   styleUrl: './image-edit.component.css'
 })
@@ -18,12 +19,17 @@ export class ImageEditComponent implements OnChanges{
 
   private cdr = inject(ChangeDetectorRef);
 
+  mode: 'crop' | 'draw' = 'crop';
+
   imageChangedEvent: any = '';
   croppedImage: string = "";
 
+  drawingImageSrc: string | null = null;
+  finalDrawingBlob: Blob | null = null;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['file'] && this.file) {
+      this.mode = 'crop';
       this.initiateCropping(this.file);
     }
   }
@@ -55,7 +61,44 @@ export class ImageEditComponent implements OnChanges{
     this.cdr.detectChanges();
   }
 
-    async applyCrop(): Promise<void> {
+  proceedToDraw(): void {
+    if (!this.croppedImage) return;
+    this.drawingImageSrc = this.croppedImage;
+    this.mode = 'draw';
+  }
+
+  handleSavedImage(event: any): void {
+    this.finalDrawingBlob = this.dataURLtoBlob(event);
+  }
+
+  private dataURLtoBlob(dataURL: string): Blob {
+    const byteString = atob(dataURL.split(',')[1]);
+    const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+
+
+  async applyCrop(): Promise<void> {
+    if (this.mode === 'draw' && this.finalDrawingBlob && this.file) {
+      const finalFile = new File([this.finalDrawingBlob], this.file.name, {
+        type: 'image/png',
+        lastModified: Date.now()
+      });
+      this.cropApplied.emit({
+        croppedFile: finalFile,
+        preview: URL.createObjectURL(finalFile),
+        index: this.index
+      });
+      this.resetCropper();
+      this.close.emit();
+      return;
+    }
+
     if (!this.croppedImage || !this.file) return;
 
     try {
