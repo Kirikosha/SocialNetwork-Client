@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
-import { PublicationModel } from '../../_models/publicationModel';
+import { PublicationModel } from '../../_models/publications/publicationModel';
 import { CommonModule, DatePipe, NgClass } from '@angular/common';
-import { UpdatePublicationModel } from '../../_models/updatePublicationModel';
+import { UpdatePublicationModel } from '../../_models/publications/updatePublicationModel';
 import { AccountService } from '../../_services/account.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -103,4 +103,10 @@ export class PublicationCardComponent {
       this.complaintComponent.closeModal();
     }
 
+  formatConditionOperator(operator?: 'GreaterThanOrEqual'): string {
+    switch (operator) {
+      case 'GreaterThanOrEqual': return '≥';
+      default: return '';
+  }
+}
 }

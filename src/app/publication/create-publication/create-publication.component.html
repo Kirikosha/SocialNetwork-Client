@@ -16,7 +16,7 @@
           </div>
         </div>
         
-        <!-- Post Options -->
+        <!-- Top row: Image upload + radio buttons -->
         <div class="post-options">
           <!-- Image Upload -->
           <label for="image-upload" class="option-button">
@@ -25,19 +25,43 @@
                    (change)="handleImageUpload($event)" style="display: none;">
           </label>
           
+          <!-- Three radio buttons -->
           <div class="btn-group post-type-toggle" role="group">
             <input type="radio" class="btn-check" name="publicationType" id="ordinaryPost" 
-                   [(ngModel)]="publicationType" value="ordinary" checked>
+                   [(ngModel)]="publicationType" value="ordinary">
             <label class="btn btn-outline-danger" for="ordinaryPost">Post Now</label>
             
             <input type="radio" class="btn-check" name="publicationType" id="plannedPost" 
                    [(ngModel)]="publicationType" value="planned">
             <label class="btn btn-outline-danger" for="plannedPost">Schedule</label>
+            
+            <input type="radio" class="btn-check" name="publicationType" id="conditionalPost" 
+                   [(ngModel)]="publicationType" value="plannedConditional">
+            <label class="btn btn-outline-danger" for="conditionalPost">Conditional</label>
           </div>
-          
+        </div>
+
+        <!-- Extra options (below the top row) -->
+        <div class="extra-options">
+          <!-- Schedule options (shown only for 'planned') -->
           <div class="schedule-options" *ngIf="publicationType === 'planned'">
             <input type="datetime-local" class="form-control schedule-input" 
                    [min]="minScheduleDate" [(ngModel)]="scheduledDate" name="scheduledDate">
+          </div>
+          
+          <!-- Conditional options (shown only for 'plannedConditional') -->
+          <div class="conditional-options" *ngIf="publicationType === 'plannedConditional'">
+            <div class="input-group">
+              <span class="input-group-text">When</span>
+              <select class="form-select" [(ngModel)]="conditionType" name="conditionType" style="max-width: 150px;">
+                <option value="SubscriberCount">Subscriber count</option>
+              </select>
+              <select class="form-select" [(ngModel)]="comparisonOperator" name="comparisonOperator" style="max-width: 80px;">
+                <option value="GreaterThanOrEqual">≥</option>
+              </select>
+              <input type="number" class="form-control" placeholder="Target" 
+                     [(ngModel)]="conditionTarget" name="conditionTarget" min="1" step="1">
+            </div>
           </div>
         </div>
       </div>
@@ -46,12 +70,13 @@
     <!-- Post Button -->
     <div class="post-button-container">
       <button type="submit" class="btn btn-success post-button" [disabled]="isPosting">
-        {{ publicationType === 'ordinary' ? 'Post' : 'Schedule' }}
+        <span *ngIf="publicationType === 'ordinary'">Post</span>
+        <span *ngIf="publicationType === 'planned'">Schedule</span>
+        <span *ngIf="publicationType === 'plannedConditional'">Create Conditional</span>
         <span *ngIf="isPosting" class="spinner-border spinner-border-sm ms-2"></span>
       </button>
     </div>
   </form>
-
 
   <app-image-edit
     *ngIf="editingFile"

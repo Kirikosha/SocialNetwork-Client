@@ -305,3 +305,12 @@
   align-items: center;
   gap: 4px;
 }
+
+.conditional-info {
+  color: #6f42c1; /* purple */
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+}
+.conditional-info i {
+  margin-right: 0.25rem;
+}

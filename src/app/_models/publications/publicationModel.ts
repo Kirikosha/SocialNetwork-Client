@@ -1,5 +1,5 @@
-import { ImageModel } from "./imageModel";
-import { MemberModel } from "./user/memberModel";
+import { ImageModel } from "../imageModel";
+import { MemberModel } from "../user/memberModel";
 
 export interface PublicationModel{
     id: number;
@@ -12,4 +12,7 @@ export interface PublicationModel{
     likesAmount: number;
     isLikedByCurrentUser: boolean;
     commentAmount: number;
+    conditionType?: 'SubscriberCount';
+    conditionTarget?: number;
+    comparisonOperator?: 'GreaterThanOrEqual'
 }

@@ -13,20 +13,29 @@
 
   <!-- Publication content -->
   <div *ngIf="publication && !isLoading" class="publication-content">
+    <div class="publication-header">
+      <app-icon [user]="publication.author"></app-icon>
 
-  <div class="publication-header">
-    <app-icon [user]="publication.author"></app-icon>
+      <div class="publication-meta">
+        <span class="post-time">
+          · {{ publication.postedAt | date: 'MMM d, y, h:mm a' }}
+        </span>
 
-    <div class="publication-meta">
-      <span class="post-time">
-        · {{ publication.postedAt | date: 'MMM d, y, h:mm a' }}
-      </span>
+        <span *ngIf="publication.updatedAt" class="updated-time">
+          · Edited {{ publication.updatedAt | date: 'MMM d, y, h:mm a' }}
+        </span>
 
-      <span *ngIf="publication.updatedAt" class="updated-time">
-        · Edited {{ publication.updatedAt | date: 'MMM d, y, h:mm a' }}
-      </span>
+        <div class="scheduled-time" *ngIf="publication.remindAt">
+          <i class="bi bi-clock"></i>
+          Scheduled for {{ publication.remindAt | date: 'MMM d, y, h:mm a' }}
+        </div>
+
+<div class="conditional-info" *ngIf="publication.conditionType !== undefined && publication.conditionTarget !== null">
+          <i class="bi bi-bullseye"></i>
+          Will post when {{ publication.conditionType | lowercase }} {{ formatConditionOperator(publication.comparisonOperator) }} {{ publication.conditionTarget }}
+        </div>
+      </div>
     </div>
-  </div>
 
     <!-- Publication text -->
     <div class="publication-text">

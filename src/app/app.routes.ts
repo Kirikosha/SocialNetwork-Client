@@ -15,6 +15,8 @@ import { ComplaintsListComponent } from './complaint/complaints-list-component/c
 import { CommentPageComponent } from './publication/comment-page/comment-page.component';
 import { PrivateChatComponent } from '../chat/private-chat/private-chat.component';
 import { ChatListComponent } from '../chat/chat-list/chat-list.component';
+import { CalendarPageComponent } from './publication/calendar-page/calendar-page.component';
+import { CreatePlannedPublicationComponent } from './publication/create-planned-publication/create-planned-publication.component';
 
 export const routes: Routes = [
     {path: 'login', component:LoginComponent},
@@ -22,6 +24,8 @@ export const routes: Routes = [
     {path: 'profile/:uniqueNameIdentifier', component: ProfileComponent},
     {path: 'edit-profile', component: EditComponent},
     {path: 'publication/:id', component: PublicationPageComponent},
+    {path: 'publications/calendar', component: CalendarPageComponent},
+    {path: 'publications/planned-create', component: CreatePlannedPublicationComponent},
     {path: 'search', component: SearchPageComponent},
     {path: 'admin-panel', component: AdminPanelComponent},
     {path: 'admin/user-list', component: AdminUserListComponent},

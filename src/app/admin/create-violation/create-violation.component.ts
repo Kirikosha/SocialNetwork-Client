@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { CommentModel } from '../../_models/commentModel';
-import { PublicationModel } from '../../_models/publicationModel';
+import { PublicationModel } from '../../_models/publications/publicationModel';
 import { ToastrService } from 'ngx-toastr';
 import { AdminService } from '../../_services/admin.service';
 import { CommonModule, NgFor } from '@angular/common';

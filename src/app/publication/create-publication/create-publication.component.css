@@ -261,3 +261,36 @@
   padding: 1rem;
   border-top: 1px solid #dee2e6;
 }
+
+
+.extra-options {
+  margin-top: 12px;
+}
+
+.schedule-options,
+.conditional-options {
+  width: 100%;
+}
+
+.schedule-input {
+  width: 100%;
+}
+
+/* Ensure the input group fills the available width */
+.conditional-options .input-group {
+  width: 100%;
+}
+
+/* Optional: Adjust the radio group for small screens */
+@media (max-width: 576px) {
+  .post-type-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .post-type-toggle .btn {
+    flex: 1 1 auto;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.9rem;
+  }
+}

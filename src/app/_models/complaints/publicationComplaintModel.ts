@@ -1,4 +1,4 @@
-import { PublicationModel } from "../publicationModel";
+import { PublicationModel } from "../publications/publicationModel";
 
 export interface PublicationComplaintModel {
     id: number,

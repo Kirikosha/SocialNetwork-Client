@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { CreatePublicationModel } from '../_models/createPublicationModel';
-import { PublicationModel } from '../_models/publicationModel';
-import { UpdatePublicationModel } from '../_models/updatePublicationModel';
+import { PublicationModel } from '../_models/publications/publicationModel';
+import { UpdatePublicationModel } from '../_models/publications/updatePublicationModel';
 import { LikeModel } from '../_models/likeModel';
+import { CreatePublicationModel } from '../_models/publications/createPublicationModel';
+import { PublicationCalendarModel } from '../_models/publications/publicationCalendarModel';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class PublicationService {
 createPublication(publicationModel: CreatePublicationModel) {
   const formData = new FormData();
   
-  // Append all simple fields
+  // Basic fields
   formData.append('Content', publicationModel.content);
   formData.append('PublicationType', publicationModel.publicationType);
   
@@ -24,10 +25,21 @@ createPublication(publicationModel: CreatePublicationModel) {
     formData.append('RemindAt', publicationModel.remindAt.toISOString());
   }
   
-  // Append each image file
+  // Conditional fields
+  if (publicationModel.conditionType) {
+    formData.append('ConditionType', publicationModel.conditionType);
+  }
+  if (publicationModel.conditionTarget != null) {
+    formData.append('ConditionTarget', publicationModel.conditionTarget.toString());
+  }
+  if (publicationModel.comparisonOperator) {
+    formData.append('ConditionOperator', publicationModel.comparisonOperator);
+  }
+  
+  // Images
   if (publicationModel.images) {
-    publicationModel.images.forEach((image, index) => {
-      formData.append(`Images`, image, image.name);
+    publicationModel.images.forEach((image) => {
+      formData.append('Images', image, image.name);
     });
   }
   
@@ -55,7 +67,11 @@ likePublication(publicationId: number){
 }
 
 getRecommendations(){
-  return this.http.get<PublicationModel[]>(this.baseUrl + '/recommendations');
+  return this.http.get<PublicationModel[]>(this.baseUrl + '/publication/recommendations');
+}
+
+getPublicationCalendar() {
+  return this.http.get<PublicationCalendarModel[]>(this.baseUrl + '/publication/publication-calendar');
 }
   constructor() { }
 }

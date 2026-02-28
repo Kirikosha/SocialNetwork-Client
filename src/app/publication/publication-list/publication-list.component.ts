@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { PublicationService } from '../../_services/publication.service';
-import { PublicationModel } from '../../_models/publicationModel';
+import { PublicationModel } from '../../_models/publications/publicationModel';
 import { AccountService } from '../../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { PublicationCardComponent } from "../publication-card/publication-card.component";
-import { UpdatePublicationModel } from '../../_models/updatePublicationModel';
+import { UpdatePublicationModel } from '../../_models/publications/updatePublicationModel';
 import { ActivatedRoute } from '@angular/router';
 import { CreateViolationComponent } from "../../admin/create-violation/create-violation.component";
 

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { PublicationModel } from '../../_models/publicationModel';
+import { PublicationModel } from '../../_models/publications/publicationModel';
 import { PublicationService } from '../../_services/publication.service';
 import { CommonModule } from '@angular/common';
 import { CommentSectionComponent } from "../comment-section/comment-section.component";
@@ -76,5 +76,11 @@ export class PublicationPageComponent {
     this.router.navigate([`/profile/${this.publication!.author.uniqueNameIdentifier}`])    
   }
 
+  formatConditionOperator(operator?: 'GreaterThanOrEqual'): string {
+    switch (operator) {
+      case 'GreaterThanOrEqual': return '≥';
+      default: return '';
+    }
+  }
 
 }
