@@ -1,7 +1,7 @@
 export interface AccountModel {
     username: string,
     uniqueNameIdentifier: string,
-    userId: number,
+    userId: string,
     token: string,
     refreshToken: string,
     role: string,

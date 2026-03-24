@@ -1,9 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { AdminUserModel } from '../_models/adminUserModel';
 import { CreateViolationModel } from '../_models/createViolationModel';
 import { ViolationModel } from '../_models/violationModel';
+import { Observable } from 'rxjs';
+import { PaginationParams, PagedList } from '../_models/shared/pagination/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -13,19 +15,26 @@ export class AdminService {
   private baseUrl = environment.apiUrl;
   constructor() { }
 
-  getUsers() {
-    return this.http.get<AdminUserModel[]>(`${this.baseUrl}/admin/get-users`);
+  getUsers(params?: PaginationParams): Observable<PagedList<AdminUserModel>> {
+    let httpParams = new HttpParams()
+      .set('page', params?.page?.toString() ?? '1')
+      .set('pageSize', params?.pageSize?.toString() ?? '10');
+
+    return this.http.get<PagedList<AdminUserModel>>(
+      `${this.baseUrl}/admin/get-users`,
+      { params: httpParams }
+    );
   }
 
-  getViolations(userId: number){
+  getViolations(userId: string){
     return this.http.get<ViolationModel[]>(`${this.baseUrl}/admin/violations/${userId}`);
   }
 
-  blockUser(userId: number){
+  blockUser(userId: string){
     return this.http.post(`${this.baseUrl}/admin/block-user`, userId);
   }
 
-  unblockUser(userId: number){
+  unblockUser(userId: string){
     return this.http.post(`${this.baseUrl}/admin/unblock-user`, userId);
   }
 
