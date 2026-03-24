@@ -4,7 +4,7 @@ export interface MessageDto {
     sentAt: Date
     editedAt?: Date | null
     wasEdited: boolean
-    senderId: number
+    senderId: string
     sendersUsername: string
     isRead: boolean
 }

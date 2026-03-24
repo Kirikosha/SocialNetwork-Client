@@ -1,54 +1,54 @@
-<div class="admin-user-list-container">
-  
+<div class="admin-user-list-container p-4">
   <!-- Header -->
   <div class="header mb-4">
-    <h1 class="text-white">
-      <i class="bi bi-people-fill me-2"></i>User Management
+    <h1 class="text-dark">
+      <i class="bi bi-people-fill me-2 text-primary"></i>User Management
     </h1>
     <p class="text-muted">Manage all registered users of the platform</p>
   </div>
 
   <!-- Controls: Search + Refresh + Page Size -->
-  <div class="card bg-dark border-secondary mb-4">
-    <div class="card-body">
-      <div class="row g-3 align-items-center">
-        
-        <!-- Search -->
-        <div class="col-md-5 col-lg-4">
-          <div class="input-group">
-            <span class="input-group-text bg-dark border-secondary text-white">
-              <i class="bi bi-search"></i>
-            </span>
-            <input type="text" 
-                   class="form-control bg-dark border-secondary text-white" 
-                   placeholder="Search users..." 
-                   [(ngModel)]="searchTerm"
-                   (ngModelChange)="loadUsers(1, pageSize)">
-          </div>
-          <small class="text-muted">* Search filters current page only</small>
-        </div>
+  <div class="card shadow-sm border-0 mb-4">
+<div class="card-body">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+    <!-- Search (left side) -->
+    <div class="flex-grow-1" style="min-width: 200px;">
+      <div class="input-group">
+        <span class="input-group-text bg-light border text-dark">
+          <i class="bi bi-search"></i>
+        </span>
+        <input type="text"
+               class="form-control bg-white border text-dark"
+               placeholder="Search users..."
+               [(ngModel)]="searchTerm"
+               (ngModelChange)="loadUsers(1, pageSize)">
+      </div>
+      <small class="text-muted">* Search filters current page only</small>
+    </div>
 
-        <!-- Page Size Selector -->
-        <div class="col-md-4 col-lg-3">
-          <label class="text-muted small mb-1 d-block">Items per page</label>
-          <select class="form-select form-select-sm bg-dark border-secondary text-white"
-                  [value]="pageSize"
-                  (change)="onPageSizeChange($event)">
-            <option *ngFor="let size of pageSizes" [value]="size">
-              {{ size }} per page
-            </option>
-          </select>
-        </div>
-
-        <!-- Refresh + Info -->
-        <div class="col-md-3 col-lg-5 text-md-end d-flex align-items-center justify-content-md-end gap-2">
-          <span class="text-muted small d-none d-md-inline">{{ showingRange }}</span>
-          <button class="btn btn-outline-primary btn-sm" (click)="loadUsers(currentPage, pageSize)" [disabled]="isLoading">
-            <i class="bi bi-arrow-clockwise me-1"></i> Refresh
-          </button>
-        </div>
+    <!-- Right side group: Page Size + Refresh/Info -->
+    <div class="d-flex flex-wrap align-items-center gap-3">
+      <!-- Page size selector -->
+      <div>
+        <label class="text-muted small mb-1 d-block">Items per page</label>
+        <select class="form-select form-select-sm bg-white border text-dark"
+                [value]="pageSize"
+                (change)="onPageSizeChange($event)">
+          <option *ngFor="let size of pageSizes" [value]="size">
+            {{ size }} per page
+          </option>
+        </select>
+      </div>
+      <!-- Refresh + info -->
+      <div class="d-flex align-items-center gap-2">
+        <span class="text-muted small d-none d-md-inline">{{ showingRange }}</span>
+        <button class="btn btn-outline-primary btn-sm" (click)="loadUsers(currentPage, pageSize)" [disabled]="isLoading">
+          <i class="bi bi-arrow-clockwise me-1"></i> Refresh
+        </button>
       </div>
     </div>
+  </div>
+</div>
   </div>
 
   <!-- Loading State -->
@@ -56,13 +56,13 @@
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-    <p class="text-white mt-2">Loading users...</p>
+    <p class="text-muted mt-2">Loading users...</p>
   </div>
 
   <!-- Empty State -->
   <div *ngIf="!isLoading && filteredUsers.length === 0" class="text-center py-5">
     <i class="bi bi-people text-muted" style="font-size: 3rem;"></i>
-    <h4 class="text-white mt-3">No users found</h4>
+    <h4 class="text-dark mt-3">No users found</h4>
     <p class="text-muted">
       {{ searchTerm ? 'Try adjusting your search terms' : 'Refresh the list or check back later' }}
     </p>
@@ -70,12 +70,12 @@
 
   <!-- User Table -->
   <div *ngIf="!isLoading && filteredUsers.length > 0" class="user-list">
-    <div class="table-responsive">
-      <table class="table table-dark table-hover align-middle">
-        <thead>
+    <div class="table-responsive rounded-3 shadow-sm border">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
           <tr>
             <th (click)="sortUsers('username')" class="sortable cursor-pointer">
-              Username 
+              Username
               <i class="bi" [ngClass]="{
                 'bi-arrow-up': currentSort === 'username' && isAscending,
                 'bi-arrow-down': currentSort === 'username' && !isAscending,
@@ -83,7 +83,7 @@
               }"></i>
             </th>
             <th (click)="sortUsers('email')" class="sortable cursor-pointer">
-              Email 
+              Email
               <i class="bi" [ngClass]="{
                 'bi-arrow-up': currentSort === 'email' && isAscending,
                 'bi-arrow-down': currentSort === 'email' && !isAscending,
@@ -91,7 +91,7 @@
               }"></i>
             </th>
             <th (click)="sortUsers('violationScore')" class="sortable cursor-pointer">
-              Violation Score 
+              Violation Score
               <i class="bi" [ngClass]="{
                 'bi-arrow-up': currentSort === 'violationScore' && isAscending,
                 'bi-arrow-down': currentSort === 'violationScore' && !isAscending,
@@ -99,7 +99,7 @@
               }"></i>
             </th>
             <th (click)="sortUsers('amountOfViolations')" class="sortable cursor-pointer">
-              Violations 
+              Violations
               <i class="bi" [ngClass]="{
                 'bi-arrow-up': currentSort === 'amountOfViolations' && isAscending,
                 'bi-arrow-down': currentSort === 'amountOfViolations' && !isAscending,
@@ -107,7 +107,7 @@
               }"></i>
             </th>
             <th (click)="sortUsers('blocked')" class="sortable cursor-pointer">
-              Status 
+              Status
               <i class="bi" [ngClass]="{
                 'bi-arrow-up': currentSort === 'blocked' && isAscending,
                 'bi-arrow-down': currentSort === 'blocked' && !isAscending,
@@ -121,23 +121,23 @@
           <tr *ngFor="let user of filteredUsers">
             <td>
               <div class="d-flex align-items-center">
-                <img [src]="user.profileImageUrl || 'assets/user.png'" 
-                     class="rounded-circle me-2 border border-secondary" 
-                     width="40" 
+                <img [src]="user.profileImageUrl || 'assets/user.png'"
+                     class="rounded-circle me-2 border"
+                     width="40"
                      height="40"
                      alt="User avatar"
                      onerror="this.src='assets/user.png'">
                 <div>
-                  <div class="text-white fw-medium">{{ user.username }}</div>
+                  <div class="fw-medium">{{ user.username }}</div>
                   <small class="text-muted">&#64;{{ user.uniqueNameIdentifier }}</small>
                 </div>
               </div>
             </td>
-            <td class="text-white small">{{ user.email }}</td>
+            <td class="small">{{ user.email }}</td>
             <td>
               <div class="d-flex align-items-center">
-                <div class="progress bg-dark" style="width: 80px; height: 8px;">
-                  <div class="progress-bar" 
+                <div class="progress" style="width: 80px; height: 8px;">
+                  <div class="progress-bar"
                        [ngClass]="{
                          'bg-success': user.violationScore < 20,
                          'bg-warning': user.violationScore >= 20 && user.violationScore < 50,
@@ -146,10 +146,10 @@
                        [style.width.%]="user.violationScore > 100 ? 100 : user.violationScore">
                   </div>
                 </div>
-                <span class="ms-2 text-white small">{{ user.violationScore }}</span>
+                <span class="ms-2 small">{{ user.violationScore }}</span>
               </div>
             </td>
-            <td class="text-white">{{ user.amountOfViolations }}</td>
+            <td>{{ user.amountOfViolations }}</td>
             <td>
               <span class="badge" [ngClass]="{
                 'bg-danger': user.blocked,
@@ -167,14 +167,14 @@
                         placement="top">
                   <i class="bi bi-list-check"></i>
                 </button>
-                <button *ngIf="!user.blocked" 
+                <button *ngIf="!user.blocked"
                         class="btn btn-sm btn-outline-danger"
                         (click)="onBlockUser(user.id)"
                         ngbTooltip="Block user"
                         placement="top">
                   <i class="bi bi-lock-fill"></i>
                 </button>
-                <button *ngIf="user.blocked" 
+                <button *ngIf="user.blocked"
                         class="btn btn-sm btn-outline-success"
                         (click)="onUnblockUser(user.id)"
                         ngbTooltip="Unblock user"
@@ -189,8 +189,7 @@
     </div>
 
     <!-- Pagination Controls -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 pt-3 border-top border-secondary">
-      
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 pt-2 border-top">
       <!-- Info + Page Size (mobile) -->
       <div class="mb-2 mb-md-0 text-center text-md-start">
         <small class="text-muted d-md-none">{{ showingRange }}</small>
@@ -199,58 +198,29 @@
       <!-- Pagination Buttons -->
       <nav aria-label="Page navigation">
         <ul class="pagination pagination-sm mb-0">
-          
-          <!-- First Page -->
           <li class="page-item" [class.disabled]="!hasPreviousPage">
-            <button class="page-link bg-dark border-secondary text-white" 
-                    (click)="goToPage(1)" 
-                    [disabled]="!hasPreviousPage"
-                    aria-label="First">
+            <button class="page-link" (click)="goToPage(1)" [disabled]="!hasPreviousPage" aria-label="First">
               <i class="bi bi-chevron-double-left"></i>
             </button>
           </li>
-          
-          <!-- Previous Page -->
           <li class="page-item" [class.disabled]="!hasPreviousPage">
-            <button class="page-link bg-dark border-secondary text-white" 
-                    (click)="prevPage()" 
-                    [disabled]="!hasPreviousPage"
-                    aria-label="Previous">
+            <button class="page-link" (click)="prevPage()" [disabled]="!hasPreviousPage" aria-label="Previous">
               <i class="bi bi-chevron-left"></i>
             </button>
           </li>
-
-          <!-- Page Numbers -->
-          <li class="page-item" 
-              *ngFor="let page of pageNumbers"
-              [class.disabled]="page === '...'">
-            <span *ngIf="page === '...'" class="page-link bg-dark border-secondary text-muted cursor-default">
-              ...
-            </span>
-            <button *ngIf="page !== '...'" 
-                    class="page-link bg-dark border-secondary text-white" 
-                    [class.active]="page === currentPage"
-                    (click)="goToPage(page)">
+          <li class="page-item" *ngFor="let page of pageNumbers" [class.disabled]="page === '...'">
+            <span *ngIf="page === '...'" class="page-link cursor-default">...</span>
+            <button *ngIf="page !== '...'" class="page-link" [class.active]="page === currentPage" (click)="goToPage(page)">
               {{ page }}
             </button>
           </li>
-
-          <!-- Next Page -->
           <li class="page-item" [class.disabled]="!hasNextPage">
-            <button class="page-link bg-dark border-secondary text-white" 
-                    (click)="nextPage()" 
-                    [disabled]="!hasNextPage"
-                    aria-label="Next">
+            <button class="page-link" (click)="nextPage()" [disabled]="!hasNextPage" aria-label="Next">
               <i class="bi bi-chevron-right"></i>
             </button>
           </li>
-          
-          <!-- Last Page -->
           <li class="page-item" [class.disabled]="!hasNextPage">
-            <button class="page-link bg-dark border-secondary text-white" 
-                    (click)="goToPage(totalPages)" 
-                    [disabled]="!hasNextPage"
-                    aria-label="Last">
+            <button class="page-link" (click)="goToPage(totalPages)" [disabled]="!hasNextPage" aria-label="Last">
               <i class="bi bi-chevron-double-right"></i>
             </button>
           </li>
@@ -259,11 +229,8 @@
 
       <!-- Page Info (desktop) -->
       <div class="mt-2 mt-md-0 text-center text-md-end">
-        <small class="text-muted">
-          Page {{ currentPage }} of {{ totalPages }}
-        </small>
+        <small class="text-muted">Page {{ currentPage }} of {{ totalPages }}</small>
       </div>
     </div>
-
   </div>
 </div>

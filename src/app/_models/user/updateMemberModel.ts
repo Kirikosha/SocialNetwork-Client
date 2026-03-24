@@ -2,7 +2,7 @@ import { UpdateAddressModel } from "./updateAddressModel";
 import { UpdateUserProfileDetailsModel } from "./updateUserProfileDetailsModel";
 
 export interface UpdateMemberModel {
-    id: number;
+    id: string;
     username: string;
     uniqueNameIdentifier: string;
     joinedAt: string;

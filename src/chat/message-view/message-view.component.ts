@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class MessageViewComponent {
   @Input() message!: MessageDto;
-  @Input() currentUserId!: number | null;
+  @Input() currentUserId!: string | null;
   @Input() showAvatar = false;
   @Input() avatarUrl: string | undefined | null;
   @Input() username: string | undefined | null;

@@ -39,7 +39,7 @@ export class PrivateChatComponent implements OnInit, OnDestroy, AfterViewChecked
   chat: ChatWithMessageDto | null = null;
   messages: MessageDto[] = [];
   otherUser: ChatUserDto | null = null;
-  currentUserId: number | null = null;
+  currentUserId: string | null = null;
   
   // Message input
   newMessage = '';
@@ -197,7 +197,7 @@ export class PrivateChatComponent implements OnInit, OnDestroy, AfterViewChecked
             sentAt: message.timestamp || new Date(),
             editedAt: null,
             wasEdited: false,
-            senderId: message.senderId || 0,
+            senderId: message.senderId,
             sendersUsername: message.senderId === this.currentUserId 
               ? 'You' 
               : (this.otherUser?.username || 'User'),

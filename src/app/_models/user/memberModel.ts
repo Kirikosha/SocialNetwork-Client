@@ -3,7 +3,7 @@ import { AddressModel } from "./addressModel"
 import { UserProfileDetailsModel } from "./userProfileDetailsModel"
 
 export interface MemberModel {
-    id: number
+    id: string
     username: string,
     uniqueNameIdentifier: string,
     joinedAt: string

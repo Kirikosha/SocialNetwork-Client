@@ -48,6 +48,7 @@ export class AdminUserListComponent implements OnInit {
     this.adminService.getUsers(params)
       .subscribe({
         next: (pagedResult: PagedList<AdminUserModel>) => {
+          console.log('Received paged users:', pagedResult);
           this.users = pagedResult.items.map(parseAdminUserDates);
           
           this.totalCount = pagedResult.totalCount;

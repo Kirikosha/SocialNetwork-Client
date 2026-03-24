@@ -1,3 +1,3 @@
 export interface StartChatDto {
-    otherUserId: number;
+    otherUserId: string;
 }

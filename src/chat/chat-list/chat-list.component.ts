@@ -23,7 +23,7 @@ export class ChatListComponent implements OnInit, OnDestroy {
 
   chats: ChatDto[] = [];
   filteredChats: ChatDto[] = [];
-  currentUserId: number | null = null
+  currentUserId: string | null = null
 
   isLoading = false;
   error: string | null = null;

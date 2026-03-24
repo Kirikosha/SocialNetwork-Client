@@ -14,7 +14,7 @@ export class ChatService {
   private baseUrl = environment.apiUrl; //     apiUrl : 'https://localhost:5600/api'
   private http = inject(HttpClient); 
   
-  startChat(otherUserId: number): Observable<ChatDto> {
+  startChat(otherUserId: string): Observable<ChatDto> {
     const dto: StartChatDto = {otherUserId};
     return this.http.post<ChatDto>(`${this.baseUrl}/chatrq/start`, dto);
   }

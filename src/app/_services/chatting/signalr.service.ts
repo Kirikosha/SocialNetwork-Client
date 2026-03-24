@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
 export interface Message {
   chatId: string;
   content: string;
-  senderId?: number;
+  senderId: string;
   timestamp?: Date;
 }
 
@@ -15,7 +15,7 @@ export interface PresenceEvent {
 }
 
 export interface TypingEvent {
-  userId: number;
+  userId: string;
   chatId: string;
 }
 
@@ -125,11 +125,11 @@ export class SignalrService {
     });
 
     // Typing indicators
-    this.hubConnection.on('UserTyping', (userId: number, chatId: string) => {
+    this.hubConnection.on('UserTyping', (userId: string, chatId: string) => {
       this.userTyping$.next({ userId, chatId });
     });
     
-    this.hubConnection.on('UserStoppedTyping', (userId: number, chatId: string) => {
+    this.hubConnection.on('UserStoppedTyping', (userId: string, chatId: string) => {
       this.userStoppedTyping$.next({ userId, chatId });
     });
 
@@ -190,7 +190,7 @@ public async leaveChat(chatId: string): Promise<void> {
 /**
  * Send a message
  */
-public async sendMessage(chatId: string, receiverId: number, message: string): Promise<void> {
+public async sendMessage(chatId: string, receiverId: string, message: string): Promise<void> {
   if (!this.hubConnection) {
     throw new Error('Hub connection not established');
   }

@@ -194,6 +194,7 @@ loadMember(): void {
           uniqueNameIdentifier: updateModel.uniqueNameIdentifier,
           userId: updateModel.id,
           token: '',
+          refreshToken: '',
           role: '',
           blocked: this.memberModel.blocked
         });

@@ -4,8 +4,9 @@ import { environment } from '../../environments/environment';
 import { AdminUserModel } from '../_models/adminUserModel';
 import { CreateViolationModel } from '../_models/createViolationModel';
 import { ViolationModel } from '../_models/violationModel';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { PaginationParams, PagedList } from '../_models/shared/pagination/pagination';
+import { ApiResponse } from '../_models/shared/apiResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +21,17 @@ export class AdminService {
       .set('page', params?.page?.toString() ?? '1')
       .set('pageSize', params?.pageSize?.toString() ?? '10');
 
-    return this.http.get<PagedList<AdminUserModel>>(
+    // Request returns ApiResponse<PagedList<T>>, extract .value
+    return this.http.get<ApiResponse<PagedList<AdminUserModel>>>(
       `${this.baseUrl}/admin/get-users`,
       { params: httpParams }
+    ).pipe(
+      map(response => {
+        if (!response.isSuccess || !response.value) {
+          throw new Error(response.error ?? 'Unknown API error');
+        }
+        return response.value; // ✅ Return unwrapped PagedList
+      })
     );
   }
 

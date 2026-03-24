@@ -1,5 +1,5 @@
 export interface ChatUserDto {
-    userId: number
+    userId: string
     username: string
     uniqueNameIdentifier: string
     profileImageUrl?: string
