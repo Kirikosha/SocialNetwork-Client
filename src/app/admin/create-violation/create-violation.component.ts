@@ -17,7 +17,7 @@ import { AccountService } from '../../_services/account.service';
 export class CreateViolationComponent implements OnInit {
   accountService = inject(AccountService);
   @Input() item!: PublicationModel | CommentModel;
-  @Output() itemDeleted = new EventEmitter<number>();
+  @Output() itemDeleted = new EventEmitter<string>();
   private adminService = inject(AdminService);
   private toastr = inject(ToastrService);
   

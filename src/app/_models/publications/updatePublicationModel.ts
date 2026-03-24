@@ -1,5 +1,5 @@
 export interface UpdatePublicationModel {
-    id: number;
+    id: string;
     content?: string;
     remindAt?: Date;
     conditionTarget?: number | undefined | null;

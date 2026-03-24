@@ -18,7 +18,7 @@ export class MakeComplaintComponent implements OnInit {
   private toastr = inject(ToastrService);
   private complaintService = inject(ComplaintService);
   
-  @Input() targetId!: number;
+  @Input() targetId!: string;
   @Input() targetType: 'publication' | 'comment' = 'publication';
   @Input() title = 'Report Content';
   @Input() modalId = 'complaintModal';

@@ -77,7 +77,7 @@ loadPublications(uniqueNameIdentifier: string): void {
     });
   }
 
-  onDeletePublication(publicationId: number): void {
+  onDeletePublication(publicationId: string): void {
     if (!confirm('Are you sure you want to delete this publication?')) return;
     
     this.publicationService.deletePublication(publicationId).subscribe({
@@ -91,7 +91,7 @@ loadPublications(uniqueNameIdentifier: string): void {
     });
   }
 
-  onLikePublication(publicationId: number): void {
+  onLikePublication(publicationId: string): void {
     this.publicationService.likePublication(publicationId).subscribe({
       next: (likeResponse) => {
         const publication = this.publications.find(p => p.id === publicationId);
@@ -106,7 +106,7 @@ loadPublications(uniqueNameIdentifier: string): void {
     });
   }
 
-  onAdminPublicationDeleted(itemId: number): void {
+  onAdminPublicationDeleted(itemId: string): void {
     this.publications = this.publications.filter(p => p.id !== itemId);
   }
 }

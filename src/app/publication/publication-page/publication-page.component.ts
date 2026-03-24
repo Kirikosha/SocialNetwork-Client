@@ -36,7 +36,7 @@ export class PublicationPageComponent {
       return;
     }
 
-    this.publicationService.getPublicationById(+id).subscribe({
+    this.publicationService.getPublicationById(id).subscribe({
       next: publication => {
         this.publication = publication;
         console.log('Loaded publication:', this.publication);

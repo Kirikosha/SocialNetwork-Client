@@ -1,10 +1,10 @@
 import { MemberModel } from "./user/memberModel";
 
 export interface CommentModel {
-    id: number;
+    id: string;
     content: string;
     author: MemberModel;
-    publicationId: number;
+    publicationId: string;
     creationDate: Date;
     isDeleted: boolean;
     repliesAmount: number;
@@ -12,6 +12,6 @@ export interface CommentModel {
 
 export interface CreateCommentModel {
     content: string;
-    publicationId: number;
-    parentId?: number;
+    publicationId: string;
+    parentId?: string;
 }

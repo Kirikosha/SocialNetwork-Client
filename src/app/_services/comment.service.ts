@@ -14,19 +14,19 @@ export class CommentService {
     return this.http.post<CommentModel>(this.baseUrl + `/comment`, commentModel);
   }
 
-  getCommentsByPublicationId(publicationId: number){
+  getCommentsByPublicationId(publicationId: string){
     return this.http.get<CommentModel[]>(this.baseUrl + `/comment/${publicationId}`);
   }
 
-  getReplies(parentId: number) {
+  getReplies(parentId: string) {
     return this.http.get<CommentModel[]>(this.baseUrl + `/comment/${parentId}/replies`);
   }
 
-  getComment(id: number) {
+  getComment(id: string) {
     return this.http.get<CommentModel>(this.baseUrl + `/comment/${id}/comment`)
   }
 
-  deleteComment(commentId: number){
+  deleteComment(commentId: string){
     return this.http.delete(this.baseUrl + `/comment/${commentId}`);
   }
 

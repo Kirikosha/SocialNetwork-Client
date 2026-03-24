@@ -46,7 +46,7 @@
     <div *ngIf="publication.images && publication.images.length > 0" class="publication-images">
       <div class="image-grid" [ngClass]="getImageGridClass(publication.images.length)">
         <div class="image-container" *ngFor="let image of publication.images">
-          <img [src]="image.imageUrl" alt="Publication image" class="publication-image">
+          <img [src]="image" alt="Publication image" class="publication-image">
         </div>
       </div>
     </div>

@@ -21,8 +21,8 @@ export class PublicationCardComponent {
   private router = inject(Router);
   @Input() publication!: PublicationModel;
   @Output() editPublication = new EventEmitter<UpdatePublicationModel>();
-  @Output() deletePublication = new EventEmitter<number>();
-  @Output() likePublication = new EventEmitter<number>();
+  @Output() deletePublication = new EventEmitter<string>();
+  @Output() likePublication = new EventEmitter<string>();
 
   @ViewChild(MakeComplaintComponent) complaintComponent!: MakeComplaintComponent;
 
@@ -87,7 +87,7 @@ export class PublicationCardComponent {
     }
   }
 
-  goToPublicationPage(publicationId: number) {
+  goToPublicationPage(publicationId: string) {
     this.router.navigate(['/publication', publicationId]);    
   }
 

@@ -51,7 +51,7 @@ getPublications(uniqueNameIdentifier: string) {
   return this.http.get<PublicationModel[]>(this.baseUrl + '/publication/publication-of-' + uniqueNameIdentifier);
 }
 
-getPublicationById(publicationId: number){
+getPublicationById(publicationId: string){
   return this.http.get<PublicationModel>(this.baseUrl + `/publication/${publicationId}`);
 }
 
@@ -59,11 +59,11 @@ updatePublication(publicationModel: UpdatePublicationModel){
   return this.http.put<PublicationModel>(this.baseUrl + '/publication/update-publication', publicationModel);
 }
 
-deletePublication(publicationId: number){
+deletePublication(publicationId: string){
   return this.http.delete(this.baseUrl + `/publication/${publicationId}`); 
 }
 
-likePublication(publicationId: number){
+likePublication(publicationId: string){
   return this.http.get<LikeModel>(this.baseUrl + `/publication/like/${publicationId}`);
 }
 
@@ -75,7 +75,7 @@ getPublicationCalendar() {
   return this.http.get<PublicationCalendarModel[]>(this.baseUrl + '/publication/publication-calendar');
 }
 
-updatePublicationView(publicationId: number): Observable<number> {
+updatePublicationView(publicationId: string): Observable<number> {
   return this.http.get<number>(`${this.baseUrl}/publication/publication/view-update/${publicationId}`);
 }
 

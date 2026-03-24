@@ -1,5 +1,5 @@
 export interface CreateViolationModel {
-    itemToRemoveId: number;
+    itemToRemoveId: string;
     removalReason: string;
     violationScoreIncrease: number;
 }

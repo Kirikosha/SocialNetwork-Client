@@ -2,12 +2,12 @@ import { ImageModel } from "../imageModel";
 import { MemberModel } from "../user/memberModel";
 
 export interface PublicationModel{
-    id: number;
+    id: string;
     content?: string;
     postedAt: Date;
     updatedAt?: Date;
     remindAt?: Date;
-    images?: ImageModel[];
+    images?: string[];
     author: MemberModel;
     likesAmount: number;
     isLikedByCurrentUser: boolean;

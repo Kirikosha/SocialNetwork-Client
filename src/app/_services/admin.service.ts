@@ -30,7 +30,7 @@ export class AdminService {
         if (!response.isSuccess || !response.value) {
           throw new Error(response.error ?? 'Unknown API error');
         }
-        return response.value; // ✅ Return unwrapped PagedList
+        return response.value;
       })
     );
   }

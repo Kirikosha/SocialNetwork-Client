@@ -18,7 +18,7 @@ import { IconComponent } from "../../../shared-components/icon/icon.component";
   styleUrl: './comment-section.component.css'
 })
 export class CommentSectionComponent implements OnInit {
-  @Input() publicationId!: number;
+  @Input() publicationId!: string;
   @Input() uniqueNameIdentifier!: string;
 
   private commentService = inject(CommentService);
@@ -85,7 +85,7 @@ export class CommentSectionComponent implements OnInit {
     });
   }
 
-  deleteComment(commentId: number): void {
+  deleteComment(commentId: string): void {
     if (!confirm('Are you sure you want to delete this comment?')) return;
 
     this.commentService.deleteComment(commentId).subscribe({
@@ -107,7 +107,7 @@ export class CommentSectionComponent implements OnInit {
     return this.currentUniqueName === uniqueNameIdentifier;
   }
 
-  onAdminCommentDeleted(id: number) {
+  onAdminCommentDeleted(id: string) {
     this.comments = this.comments.filter(p => p.id !== id);
   }
 
