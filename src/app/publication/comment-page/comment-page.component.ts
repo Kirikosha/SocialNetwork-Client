@@ -24,7 +24,7 @@ export class CommentPageComponent implements OnInit {
   accountService = inject(AccountService);
   private toastr = inject(ToastrService);
 
-  parentCommentId!: number;
+  parentCommentId!: string;
   parentComment?: CommentModel;
   replies: CommentModel[] = [];
 
@@ -37,7 +37,7 @@ export class CommentPageComponent implements OnInit {
 
   // Complaint modal (single instance for the page)
   @ViewChild(MakeComplaintComponent) complaintComponent!: MakeComplaintComponent;
-  complaintTargetId: number = 0;
+  complaintTargetId: string = "";
   complaintModalId = 'complaintModal-comment-page';
 
   ngOnInit(): void {
@@ -45,7 +45,7 @@ export class CommentPageComponent implements OnInit {
 
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
-      const id = idParam ? Number(idParam) : NaN;
+      const id = idParam ? "" + idParam : null;
 
       if (!id || Number.isNaN(id)) {
         this.toastr.error('Invalid comment id');
@@ -128,7 +128,7 @@ export class CommentPageComponent implements OnInit {
     });
   }
 
-  deleteComment(commentId: number, isParent: boolean): void {
+  deleteComment(commentId: string, isParent: boolean): void {
     if (!confirm('Are you sure you want to delete this comment?')) return;
 
     this.commentService.deleteComment(commentId).subscribe({
@@ -148,7 +148,7 @@ export class CommentPageComponent implements OnInit {
     });
   }
 
-  openAsThread(commentId: number): void {
+  openAsThread(commentId: string): void {
     this.router.navigate(['/comments', commentId]);
   }
 
@@ -157,7 +157,7 @@ export class CommentPageComponent implements OnInit {
   }
 
   // ✅ Complaint
-  openComplaintModal(commentId: number): void {
+  openComplaintModal(commentId: string): void {
     this.complaintTargetId = commentId;
     this.complaintComponent.openModal();
   }

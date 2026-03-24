@@ -11,7 +11,7 @@ import { CreateCommentModel } from '../../_models/commentModel';
   styleUrl: './comment-create.component.css'
 })
 export class CommentCreateComponent {
-  @Input() publicationId!: number;
+  @Input() publicationId!: string;
   @Output() commentCreated = new EventEmitter<CreateCommentModel>();
 
   commentForm: FormGroup;

@@ -38,11 +38,11 @@ export class RecommendationListComponent implements OnInit {
     }
   }
 
-  handlePublicationDelete(publicationId: number) {
+  handlePublicationDelete(publicationId: string) {
     this.publications = this.publications.filter(p => p.id !== publicationId);
   }
 
-  handlePublicationLike(publicationId: number) {
+  handlePublicationLike(publicationId: string) {
     const publication = this.publications.find(p => p.id === publicationId);
     if (publication) {
       publication.isLikedByCurrentUser = !publication.isLikedByCurrentUser;

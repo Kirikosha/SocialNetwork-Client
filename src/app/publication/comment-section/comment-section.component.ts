@@ -34,7 +34,7 @@ export class CommentSectionComponent implements OnInit {
 
   // Complaint modal (single instance for the whole list)
 @ViewChild('complaintModal') complaintComponent!: MakeComplaintComponent;
-  complaintTargetId: number = 0;
+  complaintTargetId: string = "";
   complaintModalId = 'complaintModal-comment-section';
 
   ngOnInit(): void {
@@ -99,7 +99,7 @@ export class CommentSectionComponent implements OnInit {
     });
   }
 
-  openThread(commentId: number): void {
+  openThread(commentId: string): void {
     this.router.navigate(['/comments', commentId]);
   }
 
@@ -115,8 +115,7 @@ export class CommentSectionComponent implements OnInit {
     return this.comments.every(comment => comment.author != null);
   }
 
-  // ✅ Complaint
-  openComplaintModal(commentId: number): void {
+  openComplaintModal(commentId: string): void {
     this.complaintTargetId = commentId;
     this.complaintComponent.openModal();
   }
